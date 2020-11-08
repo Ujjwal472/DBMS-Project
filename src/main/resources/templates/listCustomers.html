@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1><a th:href="@{/}">Factory Management</a></h1><br><br>
+    <h3>Customers List</h3>
+    <a th:href="@{/addCustomer}" class="btn btn-primary brn-sm mb-3">Add a new Customer</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company Name</th>
+            <th>GST-Number</th>
+            <th>Personal Contact</th>
+            <th>Office Contact</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_customers.empty}">
+            <td colspan="8">No Customer Available.</td>
+        </tr>
+        <tr th:each="customer: ${all_customers}">
+            <td><span th:text="${customer.customer_name}">Name</span></td>
+            <td><span th:text="${customer.email}">Email</span></td>
+            <td><span th:text="${customer.company_name}">Company Name</span></td>
+            <td><span th:text="${customer.GST_number}">GST Number</span></td>
+            <td><span th:text="${customer.personal_contact}">Personal Contact</span></td>
+            <td><span th:text="${customer.office_contact}">Office Contact</span></td>
+
+            <td>
+                <a th:href="@{/customerUpdateForm/{id}(id=${customer.customer_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteCustomer/{id}(id=${customer.customer_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/getOrders/{id}(id=${customer.customer_id})}" class="btn btn-info">Orders</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

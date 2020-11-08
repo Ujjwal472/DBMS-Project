@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1><a th:href="@{/}">Factory Management</a></h1><br><br>
+    <h3>Employee List</h3>
+    <a th:href="@{/addEmployee}" class="btn btn-primary brn-sm mb-3">Add a new Employee</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Monthly-Pay</th>
+            <th>Aadhaar-Number</th>
+            <th>Joining-Date</th>
+            <th>Joining-Month</th>
+            <th>Joining-Year</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_employees.empty}">
+            <td colspan="8">No Employee Available.</td>
+        </tr>
+        <tr th:each="employee: ${all_employees}">
+            <td><span th:text="${employee.name}">Name</span></td>
+            <td><span th:text="${employee.monthly_pay}">Monthly-Pay</span></td>
+            <td><span th:text="${employee.adhaar_number}">Aadhaar-Number</span></td>
+            <td><span th:text="${employee.joining_day}">Joining-Date</span></td>
+            <td><span th:text="${employee.joining_month}">Joining-Month</span></td>
+            <td><span th:text="${employee.joining_year}">Joining-Year</span></td>
+            <td><span th:text="${employee.address}">Address</span></td>
+
+            <td>
+                <a th:href="@{/employeeUpdateForm/{id}(id=${employee.employee_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteEmployee/{id}(id=${employee.employee_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/getAssembles/{id}(id=${employee.employee_id})}" class="btn btn-info">Products</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

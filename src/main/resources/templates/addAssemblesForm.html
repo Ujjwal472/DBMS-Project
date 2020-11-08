@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Add a new Product's Assembly details:</h1>
+    <form th:action="@{/addAssembles}" method="post" th:object="${assembles}">
+            <input type="hidden" th:field="*{employee.employee_id}">
+
+        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
+<!--        <div th:object="${product}">-->
+            <label>Product</label>
+            <select th:field="*{product.product_id}">
+                <option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.product_name}"></option>
+            </select>
+            <br>
+<!--        </div>-->
+
+<!--        <div th:object="${assembles}">-->
+            <label>Assembly-Day</label><input type="text"
+                                              th:field="*{day}" placeholder="Assembly-Day"
+                                              class="form-control mb-4 col-4"><br>
+
+            <label>Assembly-Month</label><input type="text"
+                                                th:field="*{month}" placeholder="Assembly-Month"
+                                                class="form-control mb-4 col-4"><br>
+
+            <label>Assembly-Year</label><input type="text"
+                                               th:field="*{year}" placeholder="Assembly-Year"
+                                               class="form-control mb-4 col-4"><br>
+
+            <label>Count</label><input type="text"
+                                       th:field="*{count}" placeholder="Total Count"
+                                       class="form-control mb-4 col-4"><br>
+
+            <button type="submit" class="btn btn-info">Add</button> <button type="reset" class="btn btn-warning">Reset</button>
+<!--        </div>-->
+    </form>
+</div>
+</body>
+</html>

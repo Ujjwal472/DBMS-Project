@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Add a new Product:</h1>
+    <form th:action="@{/addProduct}" th:object="${product}"
+          method="post">
+        <label>Product Name</label><input type="text" th:field="*{product_name}" placeholder="Product Name"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Total Available</label><input type="text"
+                                             th:field="*{total_available}" placeholder="Total Available"
+                                             class="form-control mb-4 col-4"><br>
+
+        <label>Total Defective</label><input type="text"
+                                             th:field="*{total_defective}" placeholder="Total Defective"
+                                             class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Add</button> <button
+            type="reset" class="btn btn-warning">Reset</button>
+    </form>
+</div>
+</body>
+</html>

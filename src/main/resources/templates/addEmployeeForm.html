@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Add a new Employee:</h1>
+    <form th:action="@{/addEmployee}" th:object="${employee}"
+          method="post">
+        <label>Employee Name</label><input type="text" th:field="*{name}" placeholder="Employee Name"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>Monthly-Pay</label><input type="text"
+                                         th:field="*{monthly_pay}" placeholder="Monthly-Pay"
+                                         class="form-control mb-4 col-4"><br>
+
+        <label>Aadhaar-Number</label><input type="text"
+                                            th:field="*{adhaar_number}" placeholder="Aadhaar-Number"
+                                            class="form-control mb-4 col-4"><br>
+
+        <label>Joining-Date</label><input type="text"
+                                          th:field="*{joining_day}" placeholder="Joining-Date"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Joining-Month</label><input type="text"
+                                           th:field="*{joining_month}" placeholder="Joining-Month"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>Joining-Year</label><input type="text"
+                                          th:field="*{joining_year}" placeholder="Joining-Year"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Address</label><input type="text"
+                                     th:field="*{address}" placeholder="Address"
+                                     class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Add</button> <button
+            type="reset" class="btn btn-warning">Reset</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Update Customer:</h1>
+    <form th:action="@{/addCustomer}" th:object="${customer}" method="post">
+        <input type="hidden" th:field="${customer_id}"><br>
+        <label>Name</label><input type="text" th:field="*{customer_name}" placeholder="Employee Name" class="form-control mb-4 col-4"><br>
+
+        <label>E-Mail</label><input type="text"
+                                    th:field="*{email}" placeholder="Email-Id"
+                                    class="form-control mb-4 col-4"><br>
+
+        <label>Company Name</label><input type="text"
+                                          th:field="*{company_name}" placeholder="Company Name"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>GST Number</label><input type="text"
+                                        th:field="*{GST_number}" placeholder="GST Number"
+                                        class="form-control mb-4 col-4"><br>
+
+        <label>Personal Contact</label><input type="text"
+                                              th:field="*{personal_contact}" placeholder="Personal Contact"
+                                              class="form-control mb-4 col-4"><br>
+
+        <label>Office Contact</label><input type="text"
+                                            th:field="*{office_contact}" placeholder="Office Contact"
+                                            class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Update</button>
+    </form>
+</div>
+</body>
+</html>

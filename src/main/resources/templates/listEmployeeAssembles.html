@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1><a th:href="@{/}">Factory Management</a></h1><br><br>
+    <h4>Products Assembled by </h4>
+    <h4 th:text = "${employee.name}"></h4>
+    <a th:href="@{/addAssembles/{id}(id=${employee.employee_id})}" class="btn btn-primary brn-sm mb-3">Add new work</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Day</th>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Count</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_assembles.empty}">
+            <td colspan="6">Nothing done.</td>
+        </tr>
+        <tr th:each="assembles: ${all_assembles}">
+            <td><span th:text="${product_name_mapping.get(assembles.product.getProduct_id())}">Product Name</span></td>
+            <td><span th:text="${assembles.day}">Day</span></td>
+            <td><span th:text="${assembles.month}">Month</span></td>
+            <td><span th:text="${assembles.year}">Year</span></td>
+            <td><span th:text="${assembles.count}">Count</span></td>
+
+            <td><a th:href="@{/deleteAssembles/{id}(id=${assembles.assembles_id})}"
+                   class="btn btn-danger">Delete</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
