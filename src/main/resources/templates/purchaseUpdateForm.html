@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h1>Add new Purchase details:</h1>
+    <form th:action="@{/addPurchase}" method="post" th:object="${purchase}">
+        <input type="hidden" th:field="*{purchase_id}">
+        <input type="hidden" th:field="*{customer}">
+        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
+        <!--        <div th:object="${product}">-->
+        <label>Product</label><br>
+        <select th:field="*{product.product_id}">
+            <option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.product_name}"></option>
+        </select>
+        <br>
+        <!--        </div>-->
+
+        <!--        <div th:object="${assembles}">-->
+        <label>Purchase Day</label><input type="text"
+                                          th:field="*{purchase_day}" placeholder="Purchase Day"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Purchase Month</label><input type="text"
+                                            th:field="*{purchase_month}" placeholder="Purchase Month"
+                                            class="form-control mb-4 col-4"><br>
+
+        <label>Purchase Year</label><input type="text"
+                                           th:field="*{purchase_year}" placeholder="Purchase Year"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>Selling Price</label><input type="text"
+                                           th:field="*{selling_price}" placeholder="Sold at"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>Transaction Status</label>
+        <select th:field="*{transaction_status}">
+            <option th:value="Y">Completed</option>
+            <option th:value="N">Pending</option>
+        </select><br><br>
+
+        <label>Delivery Status</label>
+        <select th:field="*{delivery_status}">
+            <option th:value="Y">Delivered</option>
+            <option th:value="N">Not Delivered</option>
+        </select><br><br>
+
+        <label>Delivery Day</label><input type="text"
+                                          th:field="*{delivery_day}" placeholder="Delivery Day"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Delivery Month</label><input type="text"
+                                            th:field="*{delivery_month}" placeholder="Delivery Month"
+                                            class="form-control mb-4 col-4"><br>
+
+        <label>Delivery Year</label><input type="text"
+                                           th:field="*{delivery_year}" placeholder="Delivery Year"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>Transportation Cost</label><input type="text"
+                                                 th:field="*{transportation_cost}" placeholder="Transportation Cost"
+                                                 class="form-control mb-4 col-4"><br>
+
+        <label>Amount Ordered</label><input type="text"
+                                            th:field="*{amount}" placeholder="Amount Ordered"
+                                            class="form-control mb-4 col-4"><br>
+
+        <label>Guarantee Given</label><input type="text"
+                                             th:field="*{guarantee_given}" placeholder="Guarantee Given"
+                                             class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Update</button> <button type="reset" class="btn btn-warning">Reset</button>
+        <!--        </div>-->
+    </form>
+</div>
+</body>
+</html>

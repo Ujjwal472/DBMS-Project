@@ -11,10 +11,22 @@
 </head>
 <body>
 <div class="container">
-    <h1><a th:href="@{/}">Factory Management</a></h1><br><br>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+            </ul>
+        </div>
+    </nav>
     <h3>Products List</h3>
     <a th:href="@{/addProduct}" class="btn btn-primary brn-sm mb-3">Add a new Product</a>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>Product Name</th>

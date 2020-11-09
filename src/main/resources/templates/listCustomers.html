@@ -11,10 +11,22 @@
 </head>
 <body>
 <div class="container">
-    <h1><a th:href="@{/}">Factory Management</a></h1><br><br>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+            </ul>
+        </div>
+    </nav>
     <h3>Customers List</h3>
     <a th:href="@{/addCustomer}" class="btn btn-primary brn-sm mb-3">Add a new Customer</a>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>Name</th>
@@ -23,6 +35,7 @@
             <th>GST-Number</th>
             <th>Personal Contact</th>
             <th>Office Contact</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -40,7 +53,7 @@
             <td>
                 <a th:href="@{/customerUpdateForm/{id}(id=${customer.customer_id})}" class="btn btn-primary">Update</a>
                 <a th:href="@{/deleteCustomer/{id}(id=${customer.customer_id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/getOrders/{id}(id=${customer.customer_id})}" class="btn btn-info">Orders</a>
+                <a th:href="@{/purchases/{id}(id=${customer.customer_id})}" class="btn btn-info">Orders</a>
             </td>
         </tr>
         </tbody>
