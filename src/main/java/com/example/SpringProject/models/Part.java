@@ -3,12 +3,10 @@ package com.example.SpringProject.models;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 public class Part {
     @Id
@@ -22,6 +20,22 @@ public class Part {
     @OneToMany(mappedBy = "part", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Requirement> requirements;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tools_used",
+            joinColumns = @JoinColumn(name = "part_id"),
+            inverseJoinColumns = @JoinColumn(name = "tool_id")
+    )
+    private List<Tool> tools_used;
+
+    public List<Tool> getTools_used() {
+        return tools_used;
+    }
+
+    public void setTools_used(List<Tool> tools_used) {
+        this.tools_used = tools_used;
+    }
 
     public List<Requirement> getRequirements() {
         return requirements;

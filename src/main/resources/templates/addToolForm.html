@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Factory Management</title>
@@ -25,13 +26,25 @@
                 <li><a th:href="@{/customers}">Customers</a></li>
                 <li><a th:href="@{/parts}">Parts</a></li>
                 <li><a th:href="@{/rawMaterials}">Materials</a></li>
-                <li><a th:href="@{/tools}">Tools</a></li>
             </ul>
         </div>
     </nav>
-    <div class="jumbotron">
-        <h1>This is the factory management home page.</h1>
-    </div>
+    <h1>Add a new Tool:</h1>
+    <form th:action="@{/addTool}" th:object="${tool}" method="post">
+        <label>Tool Name</label><input type="text" th:field="*{tool_name}" placeholder="Tool Name"
+                                       class="form-control mb-4 col-4"><br>
+
+        <label>Total Tools Available</label><input type="text"
+                                                   th:field="*{total_available}" placeholder="Total Tools Available"
+                                                   class="form-control mb-4 col-4"><br>
+
+        <label>Total Defective Tools</label><input type="text"
+                                                   th:field="*{total_defective}" placeholder="Total Defective Tools"
+                                                   class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Add</button> <button
+            type="reset" class="btn btn-warning">Reset</button>
+    </form>
 </div>
 </body>
 </html>
