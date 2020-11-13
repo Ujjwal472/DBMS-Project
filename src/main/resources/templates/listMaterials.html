@@ -26,38 +26,35 @@
             </ul>
         </div>
     </nav>
-    <h3>Employee List</h3>
-    <a th:href="@{/addEmployee}" class="btn btn-primary brn-sm mb-3">Add a new Employee</a>
+    <h3>Raw Materials List</h3>
+    <a th:href="@{/addRawMaterial}" class="btn btn-primary brn-sm mb-3">Add a new Material</a>
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Monthly-Pay</th>
-            <th>Aadhaar-Number</th>
-            <th>Joining-Date</th>
-            <th>Joining-Month</th>
-            <th>Joining-Year</th>
-            <th>Address</th>
+            <th>Total Available</th>
+            <th>Type</th>
+            <th>Cost Per Unit</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${all_employees.empty}">
-            <td colspan="8">No Employee Available.</td>
+        <tr th:if="${all_materials.empty}">
+            <td colspan="5">No Material Available.</td>
         </tr>
-        <tr th:each="employee: ${all_employees}">
-            <td><span th:text="${employee.name}">Name</span></td>
-            <td><span th:text="${employee.monthly_pay}">Monthly-Pay</span></td>
-            <td><span th:text="${employee.adhaar_number}">Aadhaar-Number</span></td>
-            <td><span th:text="${employee.joining_day}">Joining-Date</span></td>
-            <td><span th:text="${employee.joining_month}">Joining-Month</span></td>
-            <td><span th:text="${employee.joining_year}">Joining-Year</span></td>
-            <td><span th:text="${employee.address}">Address</span></td>
+        <tr th:each="material: ${all_materials}">
+            <td><span th:text="${material.material_name}">Name</span></td>
+            <td>
+                <a th:href="@{/decrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <span th:text="${material.total_available}">total Available</span>
+                <a th:href="@{/incrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+            </td>
+            <td><span th:text="${material.type}">Metal Type</span></td>
+            <td><span th:text="${material.cost_per_unit}">Per Unit Cost</span></td>
 
             <td>
-                <a th:href="@{/employeeUpdateForm/{id}(id=${employee.employee_id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteEmployee/{id}(id=${employee.employee_id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/getAssembles/{id}(id=${employee.employee_id})}" class="btn btn-info">Products</a>
+                <a th:href="@{/materialUpdateForm/{id}(id=${material.material_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteMaterial/{id}(id=${material.material_id})}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

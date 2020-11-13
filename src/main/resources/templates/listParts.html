@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h3>Parts List</h3>
+    <a th:href="@{/addPart}" class="btn btn-primary brn-sm mb-3">Add a new Part</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Available</th>
+            <th>Total Defective</th>
+            <th>Material Cost</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_parts.empty}">
+            <td colspan="5">No Part Available.</td>
+        </tr>
+        <tr th:each="part: ${all_parts}">
+            <td><span th:text="${part.part_name}">Name</span></td>
+            <td>
+                <a th:href="@{/decrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <span th:text="${part.total_available}">total Parts Available</span>
+                <a th:href="@{/incrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+            </td>
+            <td>
+                <a th:href="@{/decrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <span th:text="${part.total_defective}">total Defective Parts</span>
+                <a th:href="@{/incrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+            </td>
+            <td>
+                <span th:if="${part.total_material_cost == 0}">No requirements selected</span>
+                <span th:if="${part.total_material_cost > 0}" th:text="${part.total_material_cost}">Material Cost</span>
+            </td>
+
+            <td>
+                <a th:href="@{/partUpdateForm/{id}(id=${part.part_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deletePart/{id}(id=${part.part_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/requirements/{id}(id=${part.part_id})}" class="btn btn-primary">Dependencies</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

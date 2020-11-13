@@ -26,34 +26,23 @@
             </ul>
         </div>
     </nav>
-    <h3>Products List</h3>
-    <a th:href="@{/addProduct}" class="btn btn-primary brn-sm mb-3">Add a new Product</a>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Total Available</th>
-            <th>Total Defective</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${all_products.empty}">
-            <td colspan="4">No Product Available.</td>
-        </tr>
-        <tr th:each="product: ${all_products}">
-            <td><span th:text="${product.product_name}">Product Name</span></td>
-            <td><span th:text="${product.total_available}">Total Available</span></td>
-            <td><span th:text="${product.total_defective}">Total Defective</span></td>
+    <h1>Add a Requirement:</h1>
+    <form th:action="@{/addRequirement}" method="post" th:object="${requirement}">
+        <input type="hidden" th:field="*{part.part_id}">
 
-            <td>
-                <a th:href="@{/productUpdateForm/{id}(id=${product.product_id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteProduct/{id}(id=${product.product_id})}" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <label>Raw Material</label>
+        <select th:field="*{rawMaterial.material_id}">
+            <option th:each="material: ${all_materials}" th:value="${material.material_id}" th:text="${material.type + ' ' + material.material_name}"></option>
+        </select>
+        <br>
+
+        <label>Units Required</label><input type="text"
+                                          th:field="*{units_required}" placeholder="Units Required"
+                                          class="form-control mb-4 col-4"><br>
+
+
+        <button type="submit" class="btn btn-info">Add</button> <button type="reset" class="btn btn-warning">Reset</button>
+    </form>
 </div>
-
 </body>
 </html>

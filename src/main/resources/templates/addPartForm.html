@@ -29,22 +29,22 @@
             </ul>
         </div>
     </nav>
-    <h1>Update Product:</h1>
-    <form th:action="@{/addProduct}" th:object="${product}"
-          method="post">
-        <input type="hidden" th:field="${product.product_id}"><br>
-        <label>Product Name</label><input type="text" th:field="*{product_name}" placeholder="Product Name"
-                                          class="form-control mb-4 col-4"><br>
+    <h1>Add a new Part:</h1>
+    <form th:action="@{/addPart}" th:object="${part}" method="post">
+        <label>Part Name</label><input type="text" th:field="*{part_name}" placeholder="Part Name"
+                                           class="form-control mb-4 col-4"><br>
 
-        <label>Total Available</label><input type="text"
-                                             th:field="*{total_available}" placeholder="Total Available"
-                                             class="form-control mb-4 col-4"><br>
+        <label>Total Parts Available</label><input type="text"
+                                         th:field="*{total_available}" placeholder="Total Part Available"
+                                         class="form-control mb-4 col-4"><br>
 
-        <label>Total Defective</label><input type="text"
-                                             th:field="*{total_defective}" placeholder="Total Defective"
-                                             class="form-control mb-4 col-4"><br>
+        <label>Total Defective Parts</label><input type="text"
+                                            th:field="*{total_defective}" placeholder="Aadhaar-Number"
+                                            class="form-control mb-4 col-4"><br>
+        <input type="hidden" th:field="*{total_material_cost}">
 
-        <button type="submit" class="btn btn-info">Update</button>
+        <button type="submit" class="btn btn-info">Add</button> <button
+            type="reset" class="btn btn-warning">Reset</button>
     </form>
 </div>
 </body>

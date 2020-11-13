@@ -26,38 +26,33 @@
             </ul>
         </div>
     </nav>
-    <h3>Employee List</h3>
-    <a th:href="@{/addEmployee}" class="btn btn-primary brn-sm mb-3">Add a new Employee</a>
+    <h3>Requirements List</h3>
+    <a th:href="@{/addRequirement/{id}(id=${part.part_id})}" class="btn btn-primary brn-sm mb-3">Add a new Requirement</a>
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Monthly-Pay</th>
-            <th>Aadhaar-Number</th>
-            <th>Joining-Date</th>
-            <th>Joining-Month</th>
-            <th>Joining-Year</th>
-            <th>Address</th>
+            <th>Type</th>
+            <th>Cost Per Unit</th>
+            <th>Units Required</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${all_employees.empty}">
-            <td colspan="8">No Employee Available.</td>
+        <tr th:if="${all_requirements.empty}">
+            <td colspan="5">No Requirement Added Yet</td>
         </tr>
-        <tr th:each="employee: ${all_employees}">
-            <td><span th:text="${employee.name}">Name</span></td>
-            <td><span th:text="${employee.monthly_pay}">Monthly-Pay</span></td>
-            <td><span th:text="${employee.adhaar_number}">Aadhaar-Number</span></td>
-            <td><span th:text="${employee.joining_day}">Joining-Date</span></td>
-            <td><span th:text="${employee.joining_month}">Joining-Month</span></td>
-            <td><span th:text="${employee.joining_year}">Joining-Year</span></td>
-            <td><span th:text="${employee.address}">Address</span></td>
+        <tr th:each="requirement: ${all_requirements}">
+            <td><span th:text="${requirement.rawMaterial.material_name}">Name</span></td>
+            <td>
+                <span th:text="${requirement.rawMaterial.type}">Metal Type</span>
+            </td>
+            <td><span th:text="${requirement.rawMaterial.cost_per_unit}">Cost Per Unit</span></td>
+            <td><span th:text="${requirement.units_required}">Units Required</span></td>
 
             <td>
-                <a th:href="@{/employeeUpdateForm/{id}(id=${employee.employee_id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteEmployee/{id}(id=${employee.employee_id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/getAssembles/{id}(id=${employee.employee_id})}" class="btn btn-info">Products</a>
+                <a th:href="@{/requirementUpdateForm/{id}(id=${requirement.requirement_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteRequirement/{id}(id=${requirement.requirement_id})}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>
