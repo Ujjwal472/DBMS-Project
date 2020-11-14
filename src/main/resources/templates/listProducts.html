@@ -44,8 +44,16 @@
         </tr>
         <tr th:each="product: ${all_products}">
             <td><span th:text="${product.product_name}">Product Name</span></td>
-            <td><span th:text="${product.total_available}">Total Available</span></td>
-            <td><span th:text="${product.total_defective}">Total Defective</span></td>
+            <td>
+                <a th:href="@{/decrementProductAvailable/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
+                <span th:text="${product.total_available}">Total Available</span>
+                <a th:href="@{/incrementProductAvailable/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
+            </td>
+            <td>
+                <a th:href="@{/decrementProductDefective/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
+                <span th:text="${product.total_defective}">Total Defective</span>
+                <a th:href="@{/incrementProductDefective/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
+            </td>
 
             <td>
                 <a th:href="@{/productUpdateForm/{id}(id=${product.product_id})}" class="btn btn-primary">Update</a>

@@ -46,14 +46,14 @@
         <tr th:each="part: ${all_parts}">
             <td><span th:text="${part.part_name}">Name</span></td>
             <td>
-                <a th:href="@{/decrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <a th:href="@{/decrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
                 <span th:text="${part.total_available}">total Parts Available</span>
-                <a th:href="@{/incrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+                <a th:href="@{/incrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
             </td>
             <td>
-                <a th:href="@{/decrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <a th:href="@{/decrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
                 <span th:text="${part.total_defective}">total Defective Parts</span>
-                <a th:href="@{/incrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+                <a th:href="@{/incrementPartDefective/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
             </td>
             <td>
                 <span th:if="${part.total_material_cost == 0}">No requirements selected</span>
