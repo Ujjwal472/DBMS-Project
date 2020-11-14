@@ -23,6 +23,7 @@
                 <li><a th:href="@{/customers}">Customers</a></li>
                 <li><a th:href="@{/parts}">Parts</a></li>
                 <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
             </ul>
         </div>
     </nav>
@@ -57,6 +58,7 @@
             <td>
                 <a th:href="@{/toolUpdateForm/{id}(id=${tool.tool_id})}" class="btn btn-primary">Update</a>
                 <a th:href="@{/deleteTool/{id}(id=${tool.tool_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/partsUsedIn/{id}(id=${tool.tool_id})}" class="btn btn-info">Used in</a>
             </td>
         </tr>
         </tbody>

@@ -23,6 +23,7 @@
                 <li><a th:href="@{/customers}">Customers</a></li>
                 <li><a th:href="@{/parts}">Parts</a></li>
                 <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
             </ul>
         </div>
     </nav>
@@ -62,7 +63,8 @@
             <td>
                 <a th:href="@{/partUpdateForm/{id}(id=${part.part_id})}" class="btn btn-primary">Update</a>
                 <a th:href="@{/deletePart/{id}(id=${part.part_id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/requirements/{id}(id=${part.part_id})}" class="btn btn-primary">Dependencies</a>
+                <a th:href="@{/requirements/{id}(id=${part.part_id})}" class="btn btn-primary">Material Dependencies</a>
+                <a th:href="@{/toolsUsed/{id}(id=${part.part_id})}" class="btn btn-info">Tools Used</a>
             </td>
         </tr>
         </tbody>
