@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-header"><h2>Tools Required</h2></div>
+    <br>
+    <form th:action="@{/addToolRequirement/{id}(id=${part.part_id})}" th:object="${tool}" method="post">
+        <div>
+            <select th:field="*{tool_id}">
+                <option th:each="t:${available_tools}" th:value="${t.tool_id}" th:text="${t.tool_name}">option</option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-primary">Add Tool</button>
+        </div>
+    </form>
+    <br><br>
+    <div th:if="${all_tools.empty}">No Tools added.</div>
+    <ol th:each="t: ${all_tools}" class="list-group">
+        <div th:if="${t.total_available == 0}" class="list-group-item list-group-item-danger">
+            <div th:text="${t.tool_name}">Tool Name</div>
+            <div style="text-align: right;"><a th:href="@{/deleteToolRequirement/{part_id}/{tool_id}(part_id=${part.part_id}, tool_id=${t.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
+        </div>
+        <div th:if="${t.total_available != 0}" class="list-group-item list-group-item-success">
+            <div th:text="${t.tool_name}" >Tool Name</div>
+            <div style="text-align: right;"><a th:href="@{/deleteToolRequirement/{part_id}/{tool_id}(part_id=${part.part_id}, tool_id=${t.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
+        </div>
+    </ol>
+</div>
+
+</body>
+</html>

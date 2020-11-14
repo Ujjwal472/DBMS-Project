@@ -2,11 +2,14 @@ package com.example.SpringProject.controllers;
 
 import com.example.SpringProject.Services.PartService;
 import com.example.SpringProject.Services.RequirementService;
+import com.example.SpringProject.Services.ToolService;
 import com.example.SpringProject.models.Part;
+import com.example.SpringProject.models.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -15,6 +18,9 @@ public class PartController {
 
     @Autowired
     PartService partService;
+
+    @Autowired
+    ToolService toolService;
 
     @Autowired
     RequirementService requirementService;
@@ -90,6 +96,52 @@ public class PartController {
     public ModelAndView deletePart(@PathVariable(name = "id") int part_id) {
         ModelAndView mv = new ModelAndView("redirect:/parts");
         partService.deletePartById(part_id);
+        return mv;
+    }
+
+    @GetMapping("/partsUsedIn/{tool_id}")
+    public ModelAndView partDependencies(@PathVariable(name = "tool_id") int tool_id) {
+        ModelAndView mv = new ModelAndView("listPartDependencies");
+        List<Part> all_parts = toolService.getToolById(tool_id).getUsed_in();
+        List<Part> av_parts = partService.getAllPart();
+        Part part = new Part();
+        mv.addObject("all_parts", all_parts);
+        mv.addObject("available_parts", av_parts);
+        mv.addObject("part", part);
+        mv.addObject("tool", toolService.getToolById(tool_id));
+        return mv;
+    }
+
+    @PostMapping("/addPartDependency/{id}")
+    public ModelAndView addPartDependency(@PathVariable(name = "id") int tool_id, @ModelAttribute(name = "part") Part part, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("tool_id", tool_id);
+        ModelAndView mv = new ModelAndView("redirect:/partsUsedIn/{tool_id}");
+        Tool tool = toolService.getToolById(tool_id);
+        Part new_part = partService.getPartById(part.getPart_id());
+
+        // add inconsistency check later
+
+        tool.getUsed_in().add(new_part);
+        new_part.getTools_used().add(tool);
+
+        toolService.saveTool(tool);
+        partService.savePart(new_part);
+
+        return mv;
+    }
+
+    @GetMapping("/deletePartDependency/{part_id}/{tool_id}")
+    public ModelAndView deletePartDependency(@PathVariable(name = "part_id") int part_id, @PathVariable(name = "tool_id") int tool_id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("tool_id", tool_id);
+        ModelAndView mv = new ModelAndView("redirect:/partsUsedIn/{tool_id}");
+        Part part = partService.getPartById(part_id);
+        Tool tool = toolService.getToolById(tool_id);
+
+        part.getTools_used().remove(tool);
+        tool.getUsed_in().remove(part);
+
+        partService.savePart(part);
+        toolService.saveTool(tool);
         return mv;
     }
 }
