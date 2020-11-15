@@ -27,6 +27,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occured!</div>
     <h3>Parts List</h3>
     <a th:href="@{/addPart}" class="btn btn-primary brn-sm mb-3">Add a new Part</a>
     <table class="table table-bordered">
@@ -44,7 +45,7 @@
             <td colspan="5">No Part Available.</td>
         </tr>
         <tr th:each="part: ${all_parts}">
-            <td><span th:text="${part.part_name}">Name</span></td>
+            <td><span th:text="${part.partName}">Name</span></td>
             <td>
                 <a th:href="@{/decrementPartAvailable/{id}(id=${part.part_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
                 <span th:text="${part.total_available}">total Parts Available</span>
@@ -65,6 +66,7 @@
                 <a th:href="@{/deletePart/{id}(id=${part.part_id})}" class="btn btn-danger">Delete</a>
                 <a th:href="@{/requirements/{id}(id=${part.part_id})}" class="btn btn-primary">Material Dependencies</a>
                 <a th:href="@{/toolsUsed/{id}(id=${part.part_id})}" class="btn btn-info">Tools Used</a>
+                <a th:href="@{/partLog/{id}(id=${part.part_id})}" class="btn btn-info">Part Log</a>
             </td>
         </tr>
         </tbody>

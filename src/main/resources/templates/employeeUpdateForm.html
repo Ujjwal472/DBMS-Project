@@ -30,6 +30,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Update Employee:</h1>
     <form th:action="@{/addEmployee}" th:object="${employee}"
           method="post">
@@ -42,7 +43,7 @@
                                          class="form-control mb-4 col-4"><br>
 
         <label>Aadhaar-Number</label><input type="text"
-                                            th:field="*{adhaar_number}" placeholder="Aadhaar-Number"
+                                            th:field="*{aadhaarNumber}" placeholder="Aadhaar-Number"
                                             class="form-control mb-4 col-4"><br>
 
         <label>Joining-Date</label><input type="text"

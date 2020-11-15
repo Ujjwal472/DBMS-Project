@@ -23,4 +23,8 @@ public class ToolService {
         else throw new RuntimeException("No tool with id = " + tool_id);
     }
     public void deleteToolById(int tool_id) { toolRepository.deleteById(tool_id); }
+    public boolean checkByToolName(String tool_name) {
+        Optional<Tool> optional = toolRepository.findByToolName(tool_name);
+        return optional.isPresent();
+    }
 }

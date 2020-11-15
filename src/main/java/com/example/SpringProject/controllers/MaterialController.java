@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -45,9 +46,17 @@ public class MaterialController {
     }
 
     @PostMapping("/addRawMaterial")
-    public ModelAndView addMaterial(@ModelAttribute(name = "material") RawMaterial material) {
-        ModelAndView mv = new ModelAndView("redirect:/rawMaterials");
-        materialService.saveMaterial(material);
+    public ModelAndView addMaterial(@ModelAttribute(name = "material") RawMaterial material, RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        material.setMaterialName(material.getMaterialName().toLowerCase());
+        material.setType(material.getType().toLowerCase());
+        if (materialService.checkByMaterialAndType(material.getMaterialName(), material.getType())) {
+            redirectAttributes.addFlashAttribute("error", "Similar Entry corresponding to this type of material already exists (You may either update that entry or delete it to enter a new one)");
+            mv.setViewName("redirect:/addRawMaterial");
+        } else {
+            materialService.saveMaterial(material);
+            mv.setViewName("redirect:/rawMaterials");
+        }
         return mv;
     }
 

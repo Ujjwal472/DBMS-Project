@@ -34,9 +34,7 @@
         <thead>
         <tr>
             <th>Product Name</th>
-            <th>Day</th>
-            <th>Month</th>
-            <th>Year</th>
+            <th>Date</th>
             <th>Count</th>
             <th>Action</th>
         </tr>
@@ -47,9 +45,7 @@
         </tr>
         <tr th:each="assembles: ${all_assembles}">
             <td><span th:text="${product_name_mapping.get(assembles.product.getProduct_id())}">Product Name</span></td>
-            <td><span th:text="${assembles.day}">Day</span></td>
-            <td><span th:text="${assembles.month}">Month</span></td>
-            <td><span th:text="${assembles.year}">Year</span></td>
+            <td><span th:text="${#strings.toString(assembles.day) + '/' + #strings.toString(assembles.month) + '/' + #strings.toString(assembles.year)}"></span>Assembly date</td>
             <td><span th:text="${assembles.count}">Count</span></td>
 
             <td><a th:href="@{/deleteAssembles/{id}(id=${assembles.assembles_id})}"

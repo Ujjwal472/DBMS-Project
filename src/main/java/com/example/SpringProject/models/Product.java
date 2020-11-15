@@ -1,9 +1,7 @@
 package com.example.SpringProject.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,13 +19,17 @@ public class Product {
     @GeneratedValue
     private int product_id;
 
-    private String product_name;
+    private String productName;
     private int total_available;
     private int total_defective;
 
     @OneToMany(mappedBy = "product", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Assembles> assembles;
+
+    @OneToMany(mappedBy = "product", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ProductLog> productLog;
 
     public List<Assembles> getAssembles() {
         return assembles;
@@ -45,12 +47,12 @@ public class Product {
         this.product_id = product_id;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getTotal_available() {
@@ -73,7 +75,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "product_id=" + product_id +
-                ", product_name='" + product_name + '\'' +
+                ", productName='" + productName + '\'' +
                 ", total_available=" + total_available +
                 ", total_defective=" + total_defective +
                 ", assembles=" + assembles +

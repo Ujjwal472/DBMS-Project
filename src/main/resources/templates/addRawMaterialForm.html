@@ -30,10 +30,11 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">something</div>
     <h1>Add a new Raw Material:</h1>
     <form th:action="@{/addRawMaterial}" th:object="${material}" method="post">
-        <label>Material Name</label><input type="text" th:field="*{material_name}" placeholder="Material Name"
-                                       class="form-control mb-4 col-4"><br>
+        <label>Material Name</label><input type="text" th:field="*{materialName}" placeholder="Material Name"
+                                           class="form-control mb-4 col-4"><br>
 
         <label>Total Units Available</label><input type="text"
                                                    th:field="*{total_available}" placeholder="Total Part Available"

@@ -1,6 +1,7 @@
 package com.example.SpringProject.controllers;
 
 import com.example.SpringProject.Services.AssemblesService;
+import com.example.SpringProject.Services.DateService;
 import com.example.SpringProject.Services.EmployeeService;
 import com.example.SpringProject.Services.ProductService;
 import com.example.SpringProject.models.Assembles;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -26,6 +28,8 @@ public class AssemblesController {
     EmployeeService employeeService;
     @Autowired
     ProductService productService;
+    @Autowired
+    DateService dateService;
 
     @GetMapping("getAssembles/{id}")
     public ModelAndView employeeAssembles(@PathVariable(name = "id") int employee_id) {
@@ -44,7 +48,7 @@ public class AssemblesController {
         // map all the product names to their product ids for quick access in the view
         TreeMap<Integer, String> product_name_mapping = new TreeMap<Integer, String>();
         for (Product product : all_products) {
-            product_name_mapping.put(product.getProduct_id(), product.getProduct_name());
+            product_name_mapping.put(product.getProduct_id(), product.getProductName());
         }
 
         // initialize the modelAndView object with all the variables required in the template
@@ -67,19 +71,36 @@ public class AssemblesController {
         return mv;
     }
 
+
+
     @PostMapping("/addAssembles")
-    public ModelAndView addAssembles(@ModelAttribute("assembles") Assembles assembles, RedirectAttributes redirectAttributes) {
+    public ModelAndView addAssembles(@ModelAttribute("assembles") Assembles assembles, RedirectAttributes redirectAttributes) throws ParseException {
         // redirect to the employee's assembles table after saving the new instance
-        System.out.println("Reached here!");
         redirectAttributes.addAttribute("employee_id", assembles.getEmployee().getEmployee_id());
-        System.out.println("Reached here! employee id = " + assembles.getEmployee().getEmployee_id());
-        ModelAndView mv = new ModelAndView("redirect:/getAssembles/{employee_id}");
+        ModelAndView mv = new ModelAndView();
         int pid = assembles.getProduct().getProduct_id();
         assembles.setProduct(productService.getProductById(pid));
         int eid = assembles.getEmployee().getEmployee_id();
         assembles.setEmployee(employeeService.getEmployeeById(eid));
-        System.out.println(assembles.toString());
-        assemblesService.saveAssembles(assembles);
+        Employee employee = assembles.getEmployee();
+        if (!dateService.isValid(assembles.getDay(), assembles.getMonth(), assembles.getYear())) {
+            redirectAttributes.addFlashAttribute("error", "invalid date!");
+            mv.setViewName("redirect:/addAssembles/{employee_id}");
+            return mv;
+        }
+        String joining_date = dateService.convert(employee.getJoining_day(), employee.getJoining_month(), employee.getJoining_year());
+        String assemble_date = dateService.convert(assembles.getDay(), assembles.getMonth(), assembles.getYear());
+        System.out.println(joining_date + ", " + assemble_date);
+        if (assemblesService.checkAssembles(assembles.getEmployee(), assembles.getProduct(), assembles.getDay(), assembles.getMonth(), assembles.getYear())) {
+            redirectAttributes.addFlashAttribute("error", "Assembly details for this product exists for the day given!");
+            mv.setViewName("redirect:/addAssembles/{employee_id}");
+        } else if (dateService.compare(joining_date, assemble_date) > 0) {
+            redirectAttributes.addFlashAttribute("error", "Ambiguous assembly date, please check!");
+            mv.setViewName("redirect:/addAssembles/{employee_id}");
+        } else {
+            assemblesService.saveAssembles(assembles);
+            mv.setViewName("redirect:/getAssembles/{employee_id}");
+        }
         return mv;
     }
 

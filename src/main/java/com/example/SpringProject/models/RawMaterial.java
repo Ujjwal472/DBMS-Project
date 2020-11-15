@@ -14,7 +14,7 @@ public class RawMaterial {
     @Id
     @GeneratedValue
     private int material_id;
-    private String material_name;
+    private String materialName;
     private int total_available;
     private String type;
     private double cost_per_unit;
@@ -39,12 +39,12 @@ public class RawMaterial {
         this.material_id = material_id;
     }
 
-    public String getMaterial_name() {
-        return material_name;
+    public String getMaterialName() {
+        return materialName;
     }
 
-    public void setMaterial_name(String material_name) {
-        this.material_name = material_name;
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
     }
 
     public int getTotal_available() {

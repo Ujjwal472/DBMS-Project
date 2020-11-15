@@ -27,4 +27,8 @@ public class PartService {
     public void deletePartById(int part_id) {
         partRepository.deleteById(part_id);
     }
+    public boolean checkByPartName(String part_name) {
+        Optional<Part> optional = partRepository.findByPartName(part_name);
+        return optional.isPresent();
+    }
 }

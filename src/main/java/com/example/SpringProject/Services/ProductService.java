@@ -33,4 +33,9 @@ public class ProductService {
         productRepository.deleteById(product_id);
     }
 
+    public boolean checkByProductName(String product_name) {
+        Optional<Product> optional = productRepository.findByProductName(product_name);
+        return optional.isPresent();
+    }
+
 }

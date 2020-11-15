@@ -27,6 +27,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Add a new Product's Assembly details:</h1>
     <form th:action="@{/addAssembles}" method="post" th:object="${assembles}">
             <input type="hidden" th:field="*{employee.employee_id}">
@@ -35,7 +36,7 @@
 <!--        <div th:object="${product}">-->
             <label>Product</label>
             <select th:field="*{product.product_id}">
-                <option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.product_name}"></option>
+                <option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.productName}"></option>
             </select>
             <br>
 <!--        </div>-->

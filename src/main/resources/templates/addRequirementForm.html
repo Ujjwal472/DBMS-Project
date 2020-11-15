@@ -27,13 +27,14 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Add a Requirement:</h1>
     <form th:action="@{/addRequirement}" method="post" th:object="${requirement}">
         <input type="hidden" th:field="*{part.part_id}">
 
         <label>Raw Material</label>
         <select th:field="*{rawMaterial.material_id}">
-            <option th:each="material: ${all_materials}" th:value="${material.material_id}" th:text="${material.type + ' ' + material.material_name}"></option>
+            <option th:each="material: ${all_materials}" th:value="${material.material_id}" th:text="${material.type + ' ' + material.materialName}"></option>
         </select>
         <br>
 

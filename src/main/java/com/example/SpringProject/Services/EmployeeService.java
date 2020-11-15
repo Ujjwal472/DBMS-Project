@@ -33,4 +33,15 @@ public class EmployeeService {
         employeeRepository.deleteById(employee_id);
     }
 
+    public boolean checkByAadhaarNumber(long aadhaar_number) {
+        Optional<Employee> optional = employeeRepository.findByAadhaarNumber(aadhaar_number);
+        return optional.isPresent();
+    }
+
+    public Employee getByAadhaarNumber(long aadhaar_number) {
+        Optional<Employee> optional = employeeRepository.findByAadhaarNumber(aadhaar_number);
+        if (optional.isPresent()) return optional.get();
+        throw new RuntimeException("No employee having aadhaar number = " + aadhaar_number);
+    }
+
 }

@@ -30,6 +30,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Update Customer:</h1>
     <form th:action="@{/addCustomer}" th:object="${customer}" method="post">
         <input type="hidden" th:field="${customer_id}"><br>

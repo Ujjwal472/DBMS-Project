@@ -30,10 +30,11 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Update Tool:</h1>
     <form th:action="@{/addTool}" th:object="${tool}" method="post">
         <input type="hidden" th:field="*{tool_id}">
-        <label>Tool Name</label><input type="text" th:field="*{tool_name}" placeholder="Tool Name"
+        <label>Tool Name</label><input type="text" th:field="*{toolName}" placeholder="Tool Name"
                                        class="form-control mb-4 col-4"><br>
 
         <label>Total Tools Available</label><input type="text"

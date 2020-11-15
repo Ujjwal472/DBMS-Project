@@ -44,11 +44,11 @@
             <td colspan="5">No Material Available.</td>
         </tr>
         <tr th:each="material: ${all_materials}">
-            <td><span th:text="${material.material_name}">Name</span></td>
+            <td><span th:text="${material.materialName}">Name</span></td>
             <td>
-                <a th:href="@{/decrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: azure;"><button type="button" class="btn btn-warning">-</button></a>
+                <a th:href="@{/decrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: black;"><button type="button">-</button></a>
                 <span th:text="${material.total_available}">total Available</span>
-                <a th:href="@{/incrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: azure;"><button type="button" class="btn btn-primary">+</button></a>
+                <a th:href="@{/incrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: black;"><button type="button">+</button></a>
             </td>
             <td><span th:text="${material.type}">Metal Type</span></td>
             <td><span th:text="${material.cost_per_unit}">Per Unit Cost</span></td>

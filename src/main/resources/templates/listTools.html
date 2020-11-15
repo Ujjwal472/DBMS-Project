@@ -43,7 +43,7 @@
             <td colspan="5">No Tool Available.</td>
         </tr>
         <tr th:each="tool: ${all_tools}">
-            <td><span th:text="${tool.tool_name}">Name</span></td>
+            <td><span th:text="${tool.toolName}">Name</span></td>
             <td>
                 <a th:href="@{/decrementToolAvailable/{id}(id=${tool.tool_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
                 <span th:text="${tool.total_available}">total Available</span>

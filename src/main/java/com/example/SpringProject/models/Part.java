@@ -4,7 +4,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
@@ -13,7 +12,7 @@ public class Part {
     @Id
     @GeneratedValue
     private int part_id;
-    private String part_name;
+    private String partName;
     private int total_available;
     private int total_defective;
     private double total_material_cost;
@@ -29,6 +28,22 @@ public class Part {
             inverseJoinColumns = @JoinColumn(name = "tool_id")
     )
     private List<Tool> tools_used;
+
+    @OneToMany(mappedBy = "log_part", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<PartLog> partLogs;
+
+    @OneToMany(mappedBy = "part", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Works> workedOn;
+
+    public List<PartLog> getPartLogs() {
+        return partLogs;
+    }
+
+    public void setPartLogs(List<PartLog> partLogs) {
+        this.partLogs = partLogs;
+    }
 
     public List<Tool> getTools_used() {
         return tools_used;
@@ -54,12 +69,12 @@ public class Part {
         this.part_id = part_id;
     }
 
-    public String getPart_name() {
-        return part_name;
+    public String getPartName() {
+        return partName;
     }
 
-    public void setPart_name(String part_name) {
-        this.part_name = part_name;
+    public void setPartName(String partName) {
+        this.partName = partName;
     }
 
     public int getTotal_available() {

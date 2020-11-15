@@ -58,21 +58,30 @@ public class RequirementController {
 
     @PostMapping("/addRequirement")
     public ModelAndView addRequirement(@ModelAttribute(name = "requirement") Requirement requirement, RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
         Part part = partService.getPartById(requirement.getPart().getPart_id());
         requirement.setPart(part);
-        redirectAttributes.addAttribute("part_id", part.getPart_id());
-        ModelAndView mv = new ModelAndView("redirect:/requirements/{part_id}");
         requirement.setRawMaterial(materialService.getMaterialById(requirement.getRawMaterial().getMaterial_id()));
+        redirectAttributes.addAttribute("part_id", part.getPart_id());
+        if (requirementService.checkByRawMaterialAndPart(requirement.getRawMaterial(), requirement.getPart())) {
+            redirectAttributes.addFlashAttribute("error", "dependency already exists for this part (either delete it and retry or simply update it)");
+            mv.setViewName("redirect:/addRequirement/{part_id}");
+        } else if (requirement.getUnits_required() == 0) {
+            redirectAttributes.addFlashAttribute("error", "if the part is not required just omit it");
+            mv.setViewName("redirect:/addRequirement/{part_id}");
+        } else {
+            mv.setViewName("redirect:/requirements/{part_id}");
 
-        // while adding a new requirement the total material cost of the part may change so increment the
-        // cost accordingly
+            // while adding a new requirement the total material cost of the part may change so increment the
+            // cost accordingly
 
-        double cost = requirement.getPart().getTotal_material_cost();
-        cost += requirement.getRawMaterial().getCost_per_unit() * requirement.getUnits_required();
+            double cost = requirement.getPart().getTotal_material_cost();
+            cost += requirement.getRawMaterial().getCost_per_unit() * requirement.getUnits_required();
 
-        part.setTotal_material_cost(cost);
-        partService.savePart(part);
-        requirementService.saveRequirement(requirement);
+            part.setTotal_material_cost(cost);
+            partService.savePart(part);
+            requirementService.saveRequirement(requirement);
+        }
         return mv;
     }
 
@@ -109,6 +118,9 @@ public class RequirementController {
         Requirement requirement = requirementService.getRequirementById(requirement_id);
         double cost = requirement.getPart().getTotal_material_cost();
         cost -= requirement.getUnits_required() * requirement.getRawMaterial().getCost_per_unit();
+        Part part = requirement.getPart();
+        part.setTotal_material_cost(cost);
+        partService.savePart(part);
         requirementService.deleteRequirementById(requirement_id);
         return mv;
     }

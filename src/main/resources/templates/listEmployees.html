@@ -36,8 +36,6 @@
             <th>Monthly-Pay</th>
             <th>Aadhaar-Number</th>
             <th>Joining-Date</th>
-            <th>Joining-Month</th>
-            <th>Joining-Year</th>
             <th>Address</th>
             <th>Actions</th>
         </tr>
@@ -49,10 +47,8 @@
         <tr th:each="employee: ${all_employees}">
             <td><span th:text="${employee.name}">Name</span></td>
             <td><span th:text="${employee.monthly_pay}">Monthly-Pay</span></td>
-            <td><span th:text="${employee.adhaar_number}">Aadhaar-Number</span></td>
-            <td><span th:text="${employee.joining_day}">Joining-Date</span></td>
-            <td><span th:text="${employee.joining_month}">Joining-Month</span></td>
-            <td><span th:text="${employee.joining_year}">Joining-Year</span></td>
+            <td><span th:text="${employee.aadhaarNumber}">Aadhaar-Number</span></td>
+            <td><span th:text="${#strings.toString(employee.joining_day) + '/' + #strings.toString(employee.joining_month) + '/' + #strings.toString(employee.joining_year)}">joining-date</span></td>
             <td><span th:text="${employee.address}">Address</span></td>
 
             <td>

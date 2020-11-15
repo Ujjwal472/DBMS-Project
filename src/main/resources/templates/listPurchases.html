@@ -49,7 +49,7 @@
             <td colspan="10">No Purchase Done.</td>
         </tr>
         <tr th:each="purchase: ${all_purchases}">
-            <td><span th:text="${purchase.product.product_name}">Name</span></td>
+            <td><span th:text="${purchase.product.productName}">Name</span></td>
             <td><span th:text="${#strings.toString(purchase.purchase_day) + '/' + #strings.toString(purchase.purchase_month) + '/' + #strings.toString(purchase.purchase_year)}">Purchase Date</span></td>
             <td><span th:text="${purchase.selling_price}">Selling Price</span></td>
             <td>

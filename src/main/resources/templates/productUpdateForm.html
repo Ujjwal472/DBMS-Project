@@ -30,11 +30,12 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Update Product:</h1>
     <form th:action="@{/addProduct}" th:object="${product}"
           method="post">
         <input type="hidden" th:field="${product.product_id}"><br>
-        <label>Product Name</label><input type="text" th:field="*{product_name}" placeholder="Product Name"
+        <label>Product Name</label><input type="text" th:field="*{productName}" placeholder="Product Name"
                                           class="form-control mb-4 col-4"><br>
 
         <label>Total Available</label><input type="text"

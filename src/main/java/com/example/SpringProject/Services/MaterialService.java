@@ -23,4 +23,9 @@ public class MaterialService {
     public void deleteMaterialById(int material_id) {
         materialRepository.deleteById(material_id);
     }
+    public boolean checkByMaterialAndType(String material_name, String type) {
+        Optional<RawMaterial> optional = materialRepository.findByTypeAndMaterialName(type, material_name);
+        if (optional.isPresent()) return true;
+        return false;
+    }
 }

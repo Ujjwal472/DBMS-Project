@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,9 +26,16 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public ModelAndView addProduct(@ModelAttribute Product product) {
-        ModelAndView mv = new ModelAndView("redirect:/products");
-        productService.saveProduct(product);
+    public ModelAndView addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        product.setProductName(product.getProductName().toLowerCase());
+        if (productService.checkByProductName(product.getProductName())) {
+            redirectAttributes.addFlashAttribute("error", "product already exists");
+            mv.setViewName("redirect:/addProduct");
+        } else {
+            mv.setViewName("redirect:/products");
+            productService.saveProduct(product);
+        }
         return mv;
     }
 
@@ -84,11 +92,15 @@ public class ProductController {
     }
 
     @GetMapping("/incrementProductDefective/{id}")
-    public ModelAndView incrementDe(@PathVariable(name = "id") int product_id) {
+    public ModelAndView incrementDe(@PathVariable(name = "id") int product_id, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView("redirect:/products");
         Product product = productService.getProductById(product_id);
-        product.setTotal_defective(product.getTotal_defective() + 1);
-        productService.saveProduct(product);
+        if (product.getTotal_defective() + 1 > product.getTotal_available()) {
+            redirectAttributes.addFlashAttribute("error", "Defective count cannot exceed available count!");
+        } else {
+            product.setTotal_defective(product.getTotal_defective() + 1);
+            productService.saveProduct(product);
+        }
         return mv;
     }
 

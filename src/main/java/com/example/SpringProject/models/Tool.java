@@ -11,7 +11,7 @@ public class Tool {
     @Id
     @GeneratedValue
     private int tool_id;
-    private String tool_name;
+    private String toolName;
     private int total_available;
     private int total_defective;
 
@@ -26,12 +26,12 @@ public class Tool {
         this.tool_id = tool_id;
     }
 
-    public String getTool_name() {
-        return tool_name;
+    public String getToolName() {
+        return toolName;
     }
 
-    public void setTool_name(String tool_name) {
-        this.tool_name = tool_name;
+    public void setToolName(String toolName) {
+        this.toolName = toolName;
     }
 
     public int getTotal_available() {

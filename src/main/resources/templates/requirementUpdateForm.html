@@ -27,10 +27,11 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <h1>Update Requirement:</h1>
     <form th:action="@{/addUpdatedRequirement}" method="post" th:object="${requirement}">
         <input type="hidden" th:field="*{requirement_id}">
-        <p><b>Material Name: </b></p><p><b th:text="*{rawMaterial.material_name}">material name</b></p><br><br>
+        <p><b>Material Name: </b></p><p><b th:text="*{rawMaterial.materialName}">material name</b></p><br><br>
         <label>Type: </label><p><b th:text="*{rawMaterial.type}">Metal Type</b></p>
         <label>Per Unit Cost: </label><p><b th:text="*{rawMaterial.cost_per_unit}">Per Unit Cost</b></p>
 

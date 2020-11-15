@@ -23,8 +23,7 @@ public class RequirementService {
 
     public List<Requirement> getRequirementsByPartId(int part_id) { return requirementRepository.findByPart(partService.getPartById(part_id)); }
     public List<Requirement> getRequirementByRawMaterial(RawMaterial material) {
-        List<Requirement> all_requirements = requirementRepository.findByRawMaterial(material);
-        return all_requirements;
+        return requirementRepository.findByRawMaterial(material);
     }
     public Requirement getRequirementById(int requirement_id) {
         Optional<Requirement> optional = requirementRepository.findById(requirement_id);
@@ -39,5 +38,9 @@ public class RequirementService {
         Optional<Requirement> optional = requirementRepository.findByRawMaterialAndPart(material, part);
         if (optional.isPresent()) return optional.get();
         else throw new RuntimeException("No such requirement");
+    }
+    public boolean checkByRawMaterialAndPart(RawMaterial material, Part part) {
+        Optional<Requirement> optional = requirementRepository.findByRawMaterialAndPart(material, part);
+        return optional.isPresent();
     }
 }

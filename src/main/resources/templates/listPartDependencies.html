@@ -32,7 +32,7 @@
     <form th:action="@{/addPartDependency/{id}(id=${tool.tool_id})}" th:object="${part}" method="post">
         <div>
             <select th:field="*{part_id}">
-                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.part_name}">option</option>
+                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
             </select>
             <br><br>
             <button type="submit" class="btn btn-primary">Add Part</button>
@@ -42,11 +42,11 @@
     <div th:if="${all_parts.empty}">No Tools added.</div>
     <ol th:each="p: ${all_parts}" class="list-group">
         <div th:if="${p.total_available == 0}" class="list-group-item list-group-item-danger">
-            <div th:text="${p.part_name}">Part Name</div>
+            <div th:text="${p.partName}">Part Name</div>
             <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
         </div>
         <div th:if="${p.total_available != 0}" class="list-group-item list-group-item-success">
-            <div th:text="${p.part_name}" >Part Name</div>
+            <div th:text="${p.partName}" >Part Name</div>
             <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
         </div>
     </ol>

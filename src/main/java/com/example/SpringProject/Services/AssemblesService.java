@@ -1,6 +1,8 @@
 package com.example.SpringProject.Services;
 
 import com.example.SpringProject.models.Assembles;
+import com.example.SpringProject.models.Employee;
+import com.example.SpringProject.models.Product;
 import com.example.SpringProject.repositories.AssemblesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +50,8 @@ public class AssemblesService {
     public void deleteByAssemblesId(long assembles_id) {
         assemblesRepository.deleteById(assembles_id);
     }
-
+    public boolean checkAssembles(Employee employee, Product product, int day, int month, int year) {
+        Optional<Assembles> optional = assemblesRepository.findByEmployeeAndProductAndDayAndMonthAndYear(employee, product, day, month, year);
+        return optional.isPresent();
+    }
 }

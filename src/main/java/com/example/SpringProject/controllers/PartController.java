@@ -43,9 +43,19 @@ public class PartController {
     }
 
     @PostMapping("/addPart")
-    public ModelAndView addPart(@ModelAttribute(name = "part") Part part) {
-        ModelAndView mv = new ModelAndView("redirect:/parts");
-        partService.savePart(part);
+    public ModelAndView addPart(@ModelAttribute(name = "part") Part part, RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        part.setPartName(part.getPartName().toLowerCase());
+        if (partService.checkByPartName(part.getPartName())) {
+            redirectAttributes.addFlashAttribute("error", "The part already exists (either delete it first or update it)");
+            mv.setViewName("redirect:/addPart");
+        } else if (part.getTotal_defective() > part.getTotal_available()) {
+            redirectAttributes.addFlashAttribute("error", "Total defective cannot be greater than total available please check!");
+            mv.setViewName("redirect:/addPart");
+        } else {
+            partService.savePart(part);
+            mv.setViewName("redirect:/parts");
+        }
         return mv;
     }
 
@@ -67,11 +77,15 @@ public class PartController {
         return mv;
     }
     @GetMapping("/incrementPartDefective/{id}")
-    public ModelAndView incrementDef(@PathVariable(name = "id") int part_id) {
+    public ModelAndView incrementDef(@PathVariable(name = "id") int part_id, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView("redirect:/parts");
         Part part = partService.getPartById(part_id);
-        part.setTotal_defective(part.getTotal_defective() + 1);
-        partService.savePart(part);
+        if (part.getTotal_defective() + 1 <= part.getTotal_available()) {
+            part.setTotal_defective(part.getTotal_defective() + 1);
+            partService.savePart(part);
+        } else {
+            redirectAttributes.addFlashAttribute("error", "defective count cannot exceed available count, please check");
+        }
         return mv;
     }
 

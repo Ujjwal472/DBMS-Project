@@ -43,7 +43,7 @@
             <td colspan="4">No Product Available.</td>
         </tr>
         <tr th:each="product: ${all_products}">
-            <td><span th:text="${product.product_name}">Product Name</span></td>
+            <td><span th:text="${product.productName}">Product Name</span></td>
             <td>
                 <a th:href="@{/decrementProductAvailable/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
                 <span th:text="${product.total_available}">Total Available</span>
