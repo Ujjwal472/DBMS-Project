@@ -29,6 +29,25 @@ public class Part {
     )
     private List<Tool> tools_used;
 
+    @ManyToMany(mappedBy = "parts_required")
+    private List<Product> used_in;
+
+    public List<Product> getUsed_in() {
+        return used_in;
+    }
+
+    public void setUsed_in(List<Product> used_in) {
+        this.used_in = used_in;
+    }
+
+    public List<Works> getWorkedOn() {
+        return workedOn;
+    }
+
+    public void setWorkedOn(List<Works> workedOn) {
+        this.workedOn = workedOn;
+    }
+
     @OneToMany(mappedBy = "log_part", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<PartLog> partLogs;

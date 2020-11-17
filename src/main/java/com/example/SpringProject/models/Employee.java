@@ -25,6 +25,23 @@ public class Employee {
     private int joining_month;
     private int joining_year;
     private String address;
+    private String contact;
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public List<Works> getWorks() {
+        return works;
+    }
+
+    public void setWorks(List<Works> works) {
+        this.works = works;
+    }
 
     @OneToMany(mappedBy = "employee", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)

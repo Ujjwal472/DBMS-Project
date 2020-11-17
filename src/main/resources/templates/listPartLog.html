@@ -34,30 +34,35 @@
             </ul>
         </div>
     </nav>
-    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
-    <div class="page-header"><h3 style="color: blue">Used in Parts</h3></div>
-    <br>
-    <form th:action="@{/addPartDependency/{id}(id=${tool.tool_id})}" th:object="${part}" method="post">
-        <div>
-            <select th:field="*{part_id}">
-                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
-            </select>
-            <br><br>
-            <button type="submit" class="btn btn-primary">Add Part</button>
-        </div>
-    </form>
-    <br><br>
-    <div th:if="${all_parts.empty}">No Tools added.</div>
-    <ol th:each="p: ${all_parts}" class="list-group">
-        <div th:if="${p.total_available == 0}" class="list-group-item list-group-item-danger">
-            <div th:text="${p.partName}">Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-        <div th:if="${p.total_available != 0}" class="list-group-item list-group-item-success">
-            <div th:text="${p.partName}" >Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-    </ol>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occured!</div>
+    <div class="page-header"><h3 th:text="${part.partName + ' production Log '}" style="color: blue"></h3></div>
+    <a th:href="@{/addPartLog/{id}(id=${part.part_id})}" class="btn btn-primary brn-sm mb-3">Add a new Part Log</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Total Produced</th>
+            <th>Total Defective</th>
+            <th>Total Cost</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_logs.empty}">
+            <td colspan="5">No Part Log Available.</td>
+        </tr>
+        <tr th:each="log: ${all_logs}">
+            <td><span th:text="${#strings.toString(log.partLogKey.day) + '/' + #strings.toString(log.partLogKey.month) + '/' + #strings.toString(log.partLogKey.year)}">Date</span></td>
+            <td><span th:text="${log.total_produced}">Produced</span></td>
+            <td><span th:text="${log.total_defective}">Defective</span></td>
+            <td><span th:text="${log.total_cost}">Cost</span></td>
+
+            <td>
+                <a th:href="@{/deletePartLog/{id}/{day}/{month}/{year}(id=${part.part_id}, day = ${log.partLogKey.day}, month=${log.partLogKey.month}, year=${log.partLogKey.year})}" class="btn btn-info">Delete Part Log</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

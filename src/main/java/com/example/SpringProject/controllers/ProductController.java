@@ -1,6 +1,8 @@
 package com.example.SpringProject.controllers;
 
+import com.example.SpringProject.Services.PartService;
 import com.example.SpringProject.Services.ProductService;
+import com.example.SpringProject.models.Part;
 import com.example.SpringProject.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
+
+    @Autowired
+    PartService partService;
 
     @GetMapping("/addProduct")
     public ModelAndView addProductForm() {
@@ -101,6 +106,51 @@ public class ProductController {
             product.setTotal_defective(product.getTotal_defective() + 1);
             productService.saveProduct(product);
         }
+        return mv;
+    }
+
+    @GetMapping("/partsRequired/{id}")
+    public ModelAndView getPartsRequired(@PathVariable(name = "id") int product_id) {
+        ModelAndView mv = new ModelAndView("listPartsRequired");
+        List<Part> parts_req = productService.getProductById(product_id).getParts_required();
+        List<Part> all_parts = partService.getAllPart();
+        mv.addObject("parts_req", parts_req);
+        mv.addObject("all_parts", all_parts);
+        mv.addObject("product", productService.getProductById(product_id));
+        mv.addObject("part", new Part());
+        return mv;
+    }
+
+    @PostMapping("/addPartsRequired/{id}")
+    public ModelAndView addPartRequired(@ModelAttribute(name = "part") Part part, @PathVariable(name = "id") int product_id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("product_id", product_id);
+        part = partService.getPartById(part.getPart_id());
+        ModelAndView mv = new ModelAndView("redirect:/partsRequired/{product_id}");
+        Product product = productService.getProductById(product_id);
+        if (product.getParts_required().contains(part)) {
+            redirectAttributes.addFlashAttribute("error", "part already exists");
+        } else {
+            product.getParts_required().add(part);
+            part.getUsed_in().add(product);
+            productService.saveProduct(product);
+            partService.savePart(part);
+        }
+        return mv;
+    }
+
+    @GetMapping("/deletePartsRequirement/{product_id}/{part_id}")
+    public ModelAndView deletePartRequirement(@PathVariable(name = "product_id") int product_id, @PathVariable(name = "part_id") int part_id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("product_id", product_id);
+        ModelAndView mv = new ModelAndView("redirect:/partsRequired/{product_id}");
+        Part part = partService.getPartById(part_id);
+        Product product = productService.getProductById(product_id);
+
+        product.getParts_required().remove(part);
+        part.getUsed_in().remove(product);
+
+        partService.savePart(part);
+        productService.saveProduct(product);
+
         return mv;
     }
 

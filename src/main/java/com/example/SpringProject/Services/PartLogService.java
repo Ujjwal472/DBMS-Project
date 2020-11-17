@@ -1,6 +1,7 @@
 package com.example.SpringProject.Services;
 
 import com.example.SpringProject.models.PartLog;
+import com.example.SpringProject.models.PartLogKey;
 import com.example.SpringProject.repositories.PartLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,9 @@ public class PartLogService {
 
     public void savePartLog(PartLog partLog) {
         partLogRepository.save(partLog);
+    }
+
+    public void deleteById(PartLogKey pk) {
+        partLogRepository.deleteById(pk);
     }
 }

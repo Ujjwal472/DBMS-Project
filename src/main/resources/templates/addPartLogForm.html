@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Factory Management</title>
@@ -12,6 +12,7 @@
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+
 </head>
 <body style="background: beige">
 <div class="container">
@@ -35,30 +36,27 @@
         </div>
     </nav>
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
-    <div class="page-header"><h3 style="color: blue">Used in Parts</h3></div>
-    <br>
-    <form th:action="@{/addPartDependency/{id}(id=${tool.tool_id})}" th:object="${part}" method="post">
-        <div>
-            <select th:field="*{part_id}">
-                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
-            </select>
-            <br><br>
-            <button type="submit" class="btn btn-primary">Add Part</button>
-        </div>
-    </form>
-    <br><br>
-    <div th:if="${all_parts.empty}">No Tools added.</div>
-    <ol th:each="p: ${all_parts}" class="list-group">
-        <div th:if="${p.total_available == 0}" class="list-group-item list-group-item-danger">
-            <div th:text="${p.partName}">Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-        <div th:if="${p.total_available != 0}" class="list-group-item list-group-item-success">
-            <div th:text="${p.partName}" >Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-    </ol>
-</div>
+    <div class="page-header"><h3 style="color: blue">Add a new Part Log:</h3></div>
+    <form th:action="@{/addPartLog}" th:object="${partLog}" method="post">
+        <input type="hidden" th:field="*{partLogKey.partId}">
+        <label>Day</label><input type="text" th:field="*{partLogKey.day}" placeholder="day" class="form-control mb-4 col-4"><br>
 
+        <label>Month</label><input type="text" th:field="*{partLogKey.month}" placeholder="month" class="form-control mb-4 col-4"><br>
+
+        <label>Year</label><input type="text" th:field="*{partLogKey.year}" placeholder="year" class="form-control mb-4 col-4"><br>
+
+
+        <label>Total Produced</label><input type="text"
+                                                   th:field="*{total_produced}" placeholder="Total Part Produced"
+                                                   class="form-control mb-4 col-4"><br>
+
+        <label>Total Defective</label><input type="text"
+                                                   th:field="*{total_defective}" placeholder="Total Defective Produced"
+                                                   class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Add</button> <button
+            type="reset" class="btn btn-warning">Reset</button>
+    </form>
+</div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Factory Management</title>
@@ -35,30 +35,40 @@
         </div>
     </nav>
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
-    <div class="page-header"><h3 style="color: blue">Used in Parts</h3></div>
-    <br>
-    <form th:action="@{/addPartDependency/{id}(id=${tool.tool_id})}" th:object="${part}" method="post">
-        <div>
-            <select th:field="*{part_id}">
-                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
-            </select>
-            <br><br>
-            <button type="submit" class="btn btn-primary">Add Part</button>
-        </div>
-    </form>
-    <br><br>
-    <div th:if="${all_parts.empty}">No Tools added.</div>
-    <ol th:each="p: ${all_parts}" class="list-group">
-        <div th:if="${p.total_available == 0}" class="list-group-item list-group-item-danger">
-            <div th:text="${p.partName}">Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-        <div th:if="${p.total_available != 0}" class="list-group-item list-group-item-success">
-            <div th:text="${p.partName}" >Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
-        </div>
-    </ol>
-</div>
+    <div class="page-header"><h3 style="color: blue">Add a new Part's production details:</h3></div>
+    <form th:action="@{/addWorks}" method="post" th:object="${work}">
+        <input type="hidden" th:field="*{employee.employee_id}">
+        <input type="hidden" th:field="*{works_id}">
 
+        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
+        <!--        <div th:object="${product}">-->
+        <label>Part</label>
+        <select th:field="*{part.part_id}">
+            <option th:each="p: ${all_parts}" th:value="${p.part_id}" th:text="${p.partName}"></option>
+        </select>
+        <br>
+        <!--        </div>-->
+
+        <!--        <div th:object="${assembles}">-->
+        <label>Day</label><input type="text"
+                                 th:field="*{day}" placeholder="Day"
+                                 class="form-control mb-4 col-4"><br>
+
+        <label>Month</label><input type="text"
+                                   th:field="*{month}" placeholder="Month"
+                                   class="form-control mb-4 col-4"><br>
+
+        <label>Year</label><input type="text"
+                                  th:field="*{year}" placeholder="Year"
+                                  class="form-control mb-4 col-4"><br>
+
+        <label>amount</label><input type="text"
+                                    th:field="*{amount}" placeholder="Total Count"
+                                    class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Update</button>
+        <!--        </div>-->
+    </form>
+</div>
 </body>
 </html>

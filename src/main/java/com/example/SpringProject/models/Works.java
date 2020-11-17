@@ -11,7 +11,7 @@ public class Works {
     private int day;
     private int month;
     private int year;
-    private int amount;
+    private int amount; // total number of a particular part produced.
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

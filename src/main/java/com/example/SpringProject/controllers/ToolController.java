@@ -44,15 +44,33 @@ public class ToolController {
     public ModelAndView addTool(@ModelAttribute(name = "tool") Tool tool, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         tool.setToolName(tool.getToolName().toLowerCase());
-        if (toolService.checkByToolName(tool.getToolName())) {
-            redirectAttributes.addFlashAttribute("error", "The tool already exists!");
-            mv.setViewName("redirect:/addTool");
-        } else if (tool.getTotal_defective() > tool.getTotal_available()) {
-            redirectAttributes.addFlashAttribute("error", "Defective count cannot exceed total available count!");
-            mv.setViewName("redirect:/addTool");
+        if (tool.getTool_id() != 0) {
+            // update query
+            Tool old_tool = toolService.getToolById(tool.getTool_id());
+            if (!old_tool.getToolName().equals(tool.getToolName()) && toolService.checkByToolName(tool.getToolName())) {
+                redirectAttributes.addFlashAttribute("error", "The tool already exists!");
+                redirectAttributes.addAttribute("tool_id", tool.getTool_id());
+                mv.setViewName("redirect:/toolUpdateForm/{tool_id}");
+            } else if (tool.getTotal_available() < tool.getTotal_defective()) {
+                redirectAttributes.addFlashAttribute("error", "Total defective cannot be greater than total available!");
+                redirectAttributes.addAttribute("tool_id", tool.getTool_id());
+                mv.setViewName("redirect:/toolUpdateForm/{tool_id}");
+            } else {
+                toolService.saveTool(tool);
+                mv.setViewName("redirect:/tools");
+            }
         } else {
-            toolService.saveTool(tool);
-            mv.setViewName("redirect:/tools");
+            // add Tool query
+            if (toolService.checkByToolName(tool.getToolName())) {
+                redirectAttributes.addFlashAttribute("error", "The tool already exists!");
+                mv.setViewName("redirect:/addTool");
+            } else if (tool.getTotal_defective() > tool.getTotal_available()) {
+                redirectAttributes.addFlashAttribute("error", "Defective count cannot exceed total available count!");
+                mv.setViewName("redirect:/addTool");
+            } else {
+                toolService.saveTool(tool);
+                mv.setViewName("redirect:/tools");
+            }
         }
         return mv;
     }

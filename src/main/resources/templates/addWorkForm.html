@@ -16,7 +16,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;>Factory Management</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a th:href="@{/}">Home</a></li>
@@ -33,22 +33,38 @@
         </div>
     </nav>
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
-    <div class="page-header"><h3>Add a Requirement:</h3></div>
-    <form th:action="@{/addRequirement}" method="post" th:object="${requirement}">
-        <input type="hidden" th:field="*{part.part_id}">
+    <div class="page-header"><h1 style="color: blue">Add a new Part's production details:</h1></div>
+    <form th:action="@{/addWorks}" method="post" th:object="${work}">
+        <input type="hidden" th:field="*{employee.employee_id}">
 
-        <label>Raw Material</label>
-        <select th:field="*{rawMaterial.material_id}">
-            <option th:each="material: ${all_materials}" th:value="${material.material_id}" th:text="${material.materialName + ' ' + material.type}"></option>
+        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
+        <!--        <div th:object="${product}">-->
+        <label>Part</label>
+        <select th:field="*{part.part_id}">
+            <option th:each="p: ${all_parts}" th:value="${p.part_id}" th:text="${p.partName}"></option>
         </select>
         <br>
+        <!--        </div>-->
 
-        <label>Units Required</label><input type="text"
-                                          th:field="*{units_required}" placeholder="Units Required"
+        <!--        <div th:object="${assembles}">-->
+        <label>Day</label><input type="text"
+                                          th:field="*{day}" placeholder="Day"
                                           class="form-control mb-4 col-4"><br>
 
+        <label>Month</label><input type="text"
+                                            th:field="*{month}" placeholder="Month"
+                                            class="form-control mb-4 col-4"><br>
+
+        <label>Year</label><input type="text"
+                                           th:field="*{year}" placeholder="Year"
+                                           class="form-control mb-4 col-4"><br>
+
+        <label>amount</label><input type="text"
+                                   th:field="*{amount}" placeholder="Total Count"
+                                   class="form-control mb-4 col-4"><br>
 
         <button type="submit" class="btn btn-info">Add</button> <button type="reset" class="btn btn-warning">Reset</button>
+        <!--        </div>-->
     </form>
 </div>
 </body>

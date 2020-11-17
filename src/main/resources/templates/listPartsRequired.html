@@ -35,27 +35,27 @@
         </div>
     </nav>
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
-    <div class="page-header"><h3 style="color: blue">Used in Parts</h3></div>
+    <div class="page-header"><h3 th:text="${product.productName + ' uses parts'}" style="color: blue">Uses Parts</h3></div>
     <br>
-    <form th:action="@{/addPartDependency/{id}(id=${tool.tool_id})}" th:object="${part}" method="post">
+    <form th:action="@{/addPartsRequired/{id}(id=${product.product_id})}" th:object="${part}" method="post">
         <div>
             <select th:field="*{part_id}">
-                <option th:each="p:${available_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
+                <option th:each="p:${all_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
             </select>
             <br><br>
             <button type="submit" class="btn btn-primary">Add Part</button>
         </div>
     </form>
     <br><br>
-    <div th:if="${all_parts.empty}">No Tools added.</div>
-    <ol th:each="p: ${all_parts}" class="list-group">
+    <div th:if="${parts_req.empty}">No Parts added.</div>
+    <ol th:each="p: ${parts_req}" class="list-group">
         <div th:if="${p.total_available == 0}" class="list-group-item list-group-item-danger">
             <div th:text="${p.partName}">Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
+            <div style="text-align: right;"><a th:href="@{/deletePartsRequirement/{product_id}/{part_id}(product_id=${product.product_id}, part_id=${p.part_id})}"><button class="btn btn-danger">delete</button></a></div>
         </div>
         <div th:if="${p.total_available != 0}" class="list-group-item list-group-item-success">
             <div th:text="${p.partName}" >Part Name</div>
-            <div style="text-align: right;"><a th:href="@{/deletePartDependency/{part_id}/{tool_id}(part_id=${p.part_id}, tool_id=${tool.tool_id})}"><button class="btn btn-danger">delete</button></a></div>
+            <div style="text-align: right;"><a th:href="@{/deletePartsRequirement/{product_id}/{part_id}(product_id=${product.product_id}, part_id=${p.part_id})}"><button class="btn btn-danger">delete</button></a></div>
         </div>
     </ol>
 </div>

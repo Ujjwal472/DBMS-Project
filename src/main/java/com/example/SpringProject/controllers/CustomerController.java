@@ -41,8 +41,9 @@ public class CustomerController {
         return mv;
     }
 
-    @PostMapping("/customerUpdateForm")
+    @GetMapping("/customerUpdateForm/{id}")
     public ModelAndView customerUpdateForm(@PathVariable(name = "id") int customer_id) {
+        System.out.println("Entered here!");
         ModelAndView mv = new ModelAndView("customerUpdateForm");
         Customer customer = customerService.getCustomerById(customer_id);
         mv.addObject("customer", customer);

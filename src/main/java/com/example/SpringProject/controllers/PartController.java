@@ -133,14 +133,15 @@ public class PartController {
         Tool tool = toolService.getToolById(tool_id);
         Part new_part = partService.getPartById(part.getPart_id());
 
-        // add inconsistency check later
+        if (tool.getUsed_in().contains(new_part)) {
+            redirectAttributes.addFlashAttribute("error", "part already added to the dependencies!");
+        } else {
+            tool.getUsed_in().add(new_part);
+            new_part.getTools_used().add(tool);
 
-        tool.getUsed_in().add(new_part);
-        new_part.getTools_used().add(tool);
-
-        toolService.saveTool(tool);
-        partService.savePart(new_part);
-
+            toolService.saveTool(tool);
+            partService.savePart(new_part);
+        }
         return mv;
     }
 

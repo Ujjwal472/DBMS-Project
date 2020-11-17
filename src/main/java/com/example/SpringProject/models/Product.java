@@ -5,12 +5,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +28,30 @@ public class Product {
     @OneToMany(mappedBy = "product", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<ProductLog> productLog;
+
+    @ManyToMany
+    @JoinTable(
+            name = "parts_used",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "part_id")
+    )
+    private List<Part> parts_required;
+
+    public List<ProductLog> getProductLog() {
+        return productLog;
+    }
+
+    public void setProductLog(List<ProductLog> productLog) {
+        this.productLog = productLog;
+    }
+
+    public List<Part> getParts_required() {
+        return parts_required;
+    }
+
+    public void setParts_required(List<Part> parts_required) {
+        this.parts_required = parts_required;
+    }
 
     public List<Assembles> getAssembles() {
         return assembles;

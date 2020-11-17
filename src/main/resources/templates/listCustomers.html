@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+
 </head>
-<body>
+<body style="background: beige">
 <div class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Factory Management</a>
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a th:href="@{/}">Home</a></li>
@@ -25,9 +27,12 @@
                 <li><a th:href="@{/rawMaterials}">Materials</a></li>
                 <li><a th:href="@{/tools}">Tools</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
         </div>
     </nav>
-    <h3>Customers List</h3>
+    <div class="page-header"><h3 style="color: blue">Customers List</h3></div>
     <a th:href="@{/addCustomer}" class="btn btn-primary brn-sm mb-3">Add a new Customer</a>
     <table class="table table-bordered">
         <thead>
