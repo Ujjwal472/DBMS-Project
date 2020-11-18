@@ -1,5 +1,6 @@
 package com.example.SpringProject.controllers;
 
+import com.example.SpringProject.Services.DateService;
 import com.example.SpringProject.Services.PartLogService;
 import com.example.SpringProject.Services.PartService;
 import com.example.SpringProject.models.Part;
@@ -24,6 +25,9 @@ public class PartLogController {
 
     @Autowired
     PartService partService;
+
+    @Autowired
+    DateService dateService;
 
     @GetMapping("/partLog/{id}")
     public ModelAndView listPartLog(@PathVariable(name = "id") int part_id) {
@@ -53,13 +57,29 @@ public class PartLogController {
         partLog.setLog_part(part);
         double cost = partLog.getTotal_produced() * part.getTotal_material_cost();
         partLog.setTotal_cost(cost);
+        PartLogKey pk = partLog.getPartLogKey();
+        if (partLogService.checkByPartLogId(pk)) {
+            redirectAttributes.addFlashAttribute("error", "log for the selected day already exists");
+            mv.setViewName("redirect:/addPartLog/{part_id}");
+            return mv;
+        }
+        else if (!dateService.isValid(pk.getDay(), pk.getMonth(), pk.getYear())) {
+            redirectAttributes.addFlashAttribute("error", "invalid date");
+            mv.setViewName("redirect:/addPartLog/{part_id}");
+            return mv;
+        }
+        else if (partLog.getTotal_defective() > partLog.getTotal_produced()) {
+            redirectAttributes.addFlashAttribute("error", "Total defective cannot be greater than total produced");
+            mv.setViewName("redirect:/addPartLog/{part_id}");
+            return mv;
+        }
         partLogService.savePartLog(partLog);
         return mv;
     }
 
     @GetMapping("/deletePartLog/{id}/{day}/{month}/{year}")
     public ModelAndView deletePartLog(@PathVariable(name = "id") int part_id, @PathVariable(name = "day") int d,
-                              @PathVariable(name = "month") int m, @PathVariable(name = "year") int y, RedirectAttributes redirectAttributes) {
+                                      @PathVariable(name = "month") int m, @PathVariable(name = "year") int y, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("part_id", part_id);
         ModelAndView mv = new ModelAndView("redirect:/partLog/{part_id}");
         PartLogKey pk = new PartLogKey();

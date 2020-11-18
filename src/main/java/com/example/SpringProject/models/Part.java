@@ -32,6 +32,18 @@ public class Part {
     @ManyToMany(mappedBy = "parts_required")
     private List<Product> used_in;
 
+    @OneToMany(mappedBy = "log_part", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    List<PartLog> part_log;
+
+    public List<PartLog> getPart_log() {
+        return part_log;
+    }
+
+    public void setPart_log(List<PartLog> part_log) {
+        this.part_log = part_log;
+    }
+
     public List<Product> getUsed_in() {
         return used_in;
     }

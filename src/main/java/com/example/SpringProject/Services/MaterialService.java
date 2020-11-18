@@ -28,4 +28,9 @@ public class MaterialService {
         if (optional.isPresent()) return true;
         return false;
     }
+    public RawMaterial getByMaterialAndType(String material_name, String type) {
+        Optional<RawMaterial> optional = materialRepository.findByTypeAndMaterialName(type, material_name);
+        if (optional.isPresent()) return optional.get();
+        else throw new RuntimeException("No Raw Material with this material and type");
+    }
 }

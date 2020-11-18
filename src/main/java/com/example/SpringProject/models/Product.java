@@ -25,10 +25,6 @@ public class Product {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Assembles> assembles;
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<ProductLog> productLog;
-
     @ManyToMany
     @JoinTable(
             name = "parts_used",
@@ -36,14 +32,6 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "part_id")
     )
     private List<Part> parts_required;
-
-    public List<ProductLog> getProductLog() {
-        return productLog;
-    }
-
-    public void setProductLog(List<ProductLog> productLog) {
-        this.productLog = productLog;
-    }
 
     public List<Part> getParts_required() {
         return parts_required;

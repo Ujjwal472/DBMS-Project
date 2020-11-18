@@ -85,28 +85,31 @@ public class MaterialController {
     public ModelAndView addUpdated(@ModelAttribute(name = "material") RawMaterial material, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         if (materialService.checkByMaterialAndType(material.getMaterialName(), material.getType())) {
-            redirectAttributes.addFlashAttribute("error", "Similar Entry corresponding to this type of material already exists (You may either update that entry or delete it to enter a new one)");
-            redirectAttributes.addAttribute("material_id", material.getMaterial_id());
-            mv.setViewName("redirect:/materialUpdateForm/{material_id}");
-        } else {
-            mv.setViewName("redirect:/rawMaterials");
-            RawMaterial old_material = materialService.getMaterialById(material.getMaterial_id());
-            material.setRequired(old_material.getRequired());
-            if (material.getCost_per_unit() != old_material.getCost_per_unit()) {
-                // update all the dependencies
-                List<Requirement> all_requirements = old_material.getRequired();
-                for (Requirement requirement : all_requirements) {
-                    Part part = requirement.getPart();
-                    double cost = part.getTotal_material_cost();
-                    double req = requirementService.getByPartAndMaterial(part, old_material).getUnits_required();
-                    cost -= old_material.getCost_per_unit() * req;
-                    cost += material.getCost_per_unit() * req;
-                    part.setTotal_material_cost(cost);
-                    partService.savePart(part);
-                }
+            RawMaterial material1 = materialService.getByMaterialAndType(material.getMaterialName(), material.getType());
+            if (material1.getMaterial_id() != material.getMaterial_id()) {
+                redirectAttributes.addFlashAttribute("error", "Similar Entry corresponding to this type of material already exists (You may either update that entry or delete it to enter a new one)");
+                redirectAttributes.addAttribute("material_id", material.getMaterial_id());
+                mv.setViewName("redirect:/materialUpdateForm/{material_id}");
+                return mv;
             }
-            materialService.saveMaterial(material);
         }
+        mv.setViewName("redirect:/rawMaterials");
+        RawMaterial old_material = materialService.getMaterialById(material.getMaterial_id());
+        material.setRequired(old_material.getRequired());
+        if (material.getCost_per_unit() != old_material.getCost_per_unit()) {
+            // update all the dependencies
+            List<Requirement> all_requirements = old_material.getRequired();
+            for (Requirement requirement : all_requirements) {
+                Part part = requirement.getPart();
+                double cost = part.getTotal_material_cost();
+                double req = requirementService.getByPartAndMaterial(part, old_material).getUnits_required();
+                cost -= old_material.getCost_per_unit() * req;
+                cost += material.getCost_per_unit() * req;
+                part.setTotal_material_cost(cost);
+                partService.savePart(part);
+            }
+        }
+        materialService.saveMaterial(material);
         return mv;
     }
 

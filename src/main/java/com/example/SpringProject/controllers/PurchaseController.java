@@ -1,6 +1,7 @@
 package com.example.SpringProject.controllers;
 
 import com.example.SpringProject.Services.CustomerService;
+import com.example.SpringProject.Services.DateService;
 import com.example.SpringProject.Services.ProductService;
 import com.example.SpringProject.Services.PurchaseService;
 import com.example.SpringProject.models.Customer;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -28,6 +30,9 @@ public class PurchaseController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    DateService dateService;
 
     @GetMapping("/purchases/{id}")
     public ModelAndView listPurchase(@PathVariable(name = "id") int customer_id) {
@@ -53,10 +58,34 @@ public class PurchaseController {
     }
 
     @PostMapping("/addPurchase")
-    public ModelAndView addPurchase(@ModelAttribute(name = "purchase") Purchase purchase, RedirectAttributes redirectAttributes) {
+    public ModelAndView addPurchase(@ModelAttribute(name = "purchase") Purchase purchase, RedirectAttributes redirectAttributes) throws ParseException {
         redirectAttributes.addAttribute("customer_id", purchase.getCustomer().getCustomer_id());
+        redirectAttributes.addAttribute("purchase_id", purchase.getPurchase_id());
         ModelAndView mv = new ModelAndView("redirect:/purchases/{customer_id}");
         purchase.setProduct(productService.getProductById(purchase.getProduct().getProduct_id()));
+        if (!dateService.isValid(purchase.getPurchase_day(), purchase.getPurchase_month(), purchase.getPurchase_year())) {
+            redirectAttributes.addFlashAttribute("error", "please enter a valid purchase date");
+            if (purchase.getPurchase_id() == 0) mv.setViewName("redirect:/addPurchase/{customer_id}");
+            else mv.setViewName("redirect:/purchaseUpdateForm/{purchase_id}");
+            return mv;
+        } else {
+            String purchase_date = dateService.convert(purchase.getPurchase_day(), purchase.getPurchase_month(), purchase.getPurchase_year());
+            if (purchase.getDelivery_status().equals("Y")) {
+                if (!dateService.isValid(purchase.getDelivery_day(), purchase.getDelivery_month(), purchase.getDelivery_year())) {
+                    redirectAttributes.addFlashAttribute("error", "please enter a valid delivery date");
+                    if (purchase.getPurchase_id() == 0) mv.setViewName("redirect:/addPurchase/{customer_id}");
+                    else mv.setViewName("redirect:/purchaseUpdateForm/{purchase_id}");
+                    return mv;
+                }
+                String delivery_date = dateService.convert(purchase.getDelivery_day(), purchase.getDelivery_month(), purchase.getDelivery_year());
+                if (dateService.compare(purchase_date, delivery_date) > 0) {
+                    redirectAttributes.addFlashAttribute("error", "delivery date should come after purchase date, please check!");
+                    if (purchase.getPurchase_id() == 0) mv.setViewName("redirect:/addPurchase/{customer_id}");
+                    else mv.setViewName("redirect:/purchaseUpdateForm/{purchase_id}");
+                    return mv;
+                }
+            }
+        }
 //        purchase.setCustomer(customerService.getCustomerById(customer_id));
         purchaseService.savePurchase(purchase);
         return mv;
