@@ -1,5 +1,6 @@
 package com.example.SpringProject.controllers;
 
+import com.example.SpringProject.Services.DateService;
 import com.example.SpringProject.Services.EmployeeService;
 import com.example.SpringProject.Services.PartService;
 import com.example.SpringProject.Services.WorksService;
@@ -29,6 +30,9 @@ public class WorksController {
     @Autowired
     PartService partService;
 
+    @Autowired
+    DateService dateService;
+
     @GetMapping("/works/{id}")
     public ModelAndView ListWorks(@PathVariable(name = "id") int employee_id) {
         ModelAndView mv = new ModelAndView("listWorks");
@@ -56,7 +60,33 @@ public class WorksController {
         work.setEmployee(employeeService.getEmployeeById(work.getEmployee().getEmployee_id()));
         work.setPart(partService.getPartById(work.getPart().getPart_id()));
         redirectAttributes.addAttribute("employee_id", work.getEmployee().getEmployee_id());
-        ModelAndView mv = new ModelAndView("redirect:/works/{employee_id}");
+        redirectAttributes.addAttribute("works_id", work.getWorksId());
+        ModelAndView mv = new ModelAndView();
+        if (!dateService.isValid(work.getDay(), work.getMonth(), work.getYear())) {
+            redirectAttributes.addFlashAttribute("error", "please enter a valid date");
+            if (work.getWorksId() == 0) mv.setViewName("redirect:/addWorks/{employee_id}");
+            else mv.setViewName("redirect:/updateWork/{works_id}");
+            return mv;
+        }
+        if (work.getWorksId() == 0) {
+            // adding first time
+            if (worksService.checkByDate(work.getEmployee(), work.getPart(), work.getDay(), work.getMonth(), work.getYear())) {
+                redirectAttributes.addFlashAttribute("error", "work corresponding to this day aleady exists, update it");
+                mv.setViewName("redirect:/addWorks/{employee_id}");
+                return mv;
+            }
+        } else {
+            // update
+            if (worksService.checkByDate(work.getEmployee(), work.getPart(), work.getDay(), work.getMonth(), work.getYear())) {
+                Works work1 = worksService.getByDate(work.getEmployee(), work.getPart(), work.getDay(), work.getMonth(), work.getYear());
+                if (work1.getWorksId() == work.getWorksId()) {
+                    redirectAttributes.addFlashAttribute("error", "Work corresponding to this part and day already exists!");
+                    mv.setViewName("redirect:/updateWork/{works_id}");
+                    return mv;
+                }
+            }
+        }
+        mv.setViewName("redirect:/works/{employee_id}");
         worksService.savework(work);
         return mv;
     }

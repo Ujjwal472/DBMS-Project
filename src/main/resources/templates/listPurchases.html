@@ -35,6 +35,7 @@
         </div>
     </nav>
 
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 th:text="${'Purchases By ' + customer.customer_name}" style="color: blue">Purchases By: </h3></div>
     <a th:href="@{/addPurchase/{id}(id = ${customer.customer_id})}" class="btn btn-primary brn-sm mb-3">Add a new Purchase</a>
     <table class="table table-bordered">

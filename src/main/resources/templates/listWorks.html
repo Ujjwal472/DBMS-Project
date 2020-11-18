@@ -34,6 +34,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occured!</div>
     <div class="page-header"><h3 th:text="${'parts made by ' + employee.name}" style="color: blue">Parts List</h3></div>
     <a th:href="@{/addWorks/{id}(id=${employee.employee_id})}" class="btn btn-primary brn-sm mb-3">Add a new work</a>
@@ -56,7 +57,7 @@
             <td><span th:text="${work.amount}">Amount</span></td>
 
             <td>
-                <a th:href="@{/deleteWork/{id}(id=${employee.employee_id})}" class="btn btn-info">Delete</a>
+                <a th:href="@{/deleteWork/{id}(id=${work.worksId})}" class="btn btn-info">Delete</a>
             </td>
         </tr>
         </tbody>

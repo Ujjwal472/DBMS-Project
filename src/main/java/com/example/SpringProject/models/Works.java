@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Works {
     @Id
     @GeneratedValue
-    private int works_id;
+    private int worksId;
     private int day;
     private int month;
     private int year;
@@ -21,12 +21,12 @@ public class Works {
     @JoinColumn(name = "part_id")
     private Part part;
 
-    public int getWorks_id() {
-        return works_id;
+    public int getWorksId() {
+        return worksId;
     }
 
-    public void setWorks_id(int works_id) {
-        this.works_id = works_id;
+    public void setWorksId(int worksId) {
+        this.worksId = worksId;
     }
 
     public int getDay() {

@@ -153,7 +153,10 @@ public class ToolController {
         Tool new_tool = toolService.getToolById(tool.getTool_id());
         Part part = partService.getPartById(part_id);
 
-        // add a inconsistency check later
+        if (new_tool.getUsed_in().contains(part)) {
+            redirectAttributes.addFlashAttribute("error", "dependency already present");
+            return mv;
+        }
 
         new_tool.getUsed_in().add(part);
         part.getTools_used().add(new_tool);

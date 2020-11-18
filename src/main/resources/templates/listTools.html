@@ -35,6 +35,7 @@
         </div>
     </nav>
 
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue;">Tools List</h3></div>
     <a th:href="@{/addTool}" class="btn btn-primary brn-sm mb-3">Add a Tool</a>
     <table class="table table-bordered">

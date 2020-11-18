@@ -1,5 +1,8 @@
 package com.example.SpringProject.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +19,7 @@ public class Tool {
     private int total_defective;
 
     @ManyToMany(mappedBy = "tools_used")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Part> used_in;
 
     public int getTool_id() {

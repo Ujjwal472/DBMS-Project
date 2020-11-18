@@ -34,6 +34,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue" th:text="${'Requirement List for ' + part.partName}"></h3></div>
     <a th:href="@{/addRequirement/{id}(id=${part.part_id})}" class="btn btn-primary brn-sm mb-3">Add a new Requirement</a>
     <table class="table table-bordered">

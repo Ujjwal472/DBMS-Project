@@ -93,6 +93,11 @@ public class MaterialController {
                 return mv;
             }
         }
+        if (material.getCost_per_unit() < 0) {
+            redirectAttributes.addFlashAttribute("error", "please ensure that is cost is non negative");
+            mv.setViewName("redirect:/materialUpdateForm/{material_id}");
+            return mv;
+        }
         mv.setViewName("redirect:/rawMaterials");
         RawMaterial old_material = materialService.getMaterialById(material.getMaterial_id());
         material.setRequired(old_material.getRequired());

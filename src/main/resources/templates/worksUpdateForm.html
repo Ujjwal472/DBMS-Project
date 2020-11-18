@@ -38,7 +38,7 @@
     <div class="page-header"><h3 style="color: blue">Add a new Part's production details:</h3></div>
     <form th:action="@{/addWorks}" method="post" th:object="${work}">
         <input type="hidden" th:field="*{employee.employee_id}">
-        <input type="hidden" th:field="*{works_id}">
+        <input type="hidden" th:field="*{worksId}">
 
         <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
         <!--        <div th:object="${product}">-->

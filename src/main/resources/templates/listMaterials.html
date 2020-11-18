@@ -35,6 +35,7 @@
         </div>
     </nav>
 
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Raw Materials List</h3></div>
     <a th:href="@{/addRawMaterial}" class="btn btn-primary brn-sm mb-3">Add a new Material</a>
     <table class="table table-bordered">

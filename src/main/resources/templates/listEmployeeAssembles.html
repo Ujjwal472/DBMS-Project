@@ -32,6 +32,7 @@
             </ul>
         </div>
     </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 th:text = "${'Products assembled by ' + employee.name}" style="color: blue" s></h3></div>
     <a th:href="@{/addAssembles/{id}(id=${employee.employee_id})}" class="btn btn-primary brn-sm mb-3">Add new work</a>
     <table class="table table-bordered">
