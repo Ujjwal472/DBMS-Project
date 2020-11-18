@@ -34,6 +34,10 @@ public class ProductController {
     public ModelAndView addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         redirectAttributes.addAttribute("product_id", product.getProduct_id());
+        if (product.getProduct_id() != 0) {
+            product.setAssembles(productService.getProductById(product.getProduct_id()).getAssembles());
+            product.setParts_required(productService.getProductById(product.getProduct_id()).getParts_required());
+        }
         product.setProductName(product.getProductName().toLowerCase());
         if (productService.checkByProductName(product.getProductName())) {
             redirectAttributes.addFlashAttribute("error", "product already exists");

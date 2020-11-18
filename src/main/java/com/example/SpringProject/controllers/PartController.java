@@ -46,6 +46,14 @@ public class PartController {
     public ModelAndView addPart(@ModelAttribute(name = "part") Part part, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         part.setPartName(part.getPartName().toLowerCase());
+        if (part.getPart_id() != 0) {
+            part.setRequirements(partService.getPartById(part.getPart_id()).getRequirements());
+            part.setTools_used(partService.getPartById(part.getPart_id()).getTools_used());
+            part.setUsed_in(partService.getPartById(part.getPart_id()).getUsed_in());
+            part.setPart_log(partService.getPartById(part.getPart_id()).getPart_log());
+            part.setPartLogs(partService.getPartById(part.getPart_id()).getPartLogs());
+            part.setWorkedOn(partService.getPartById(part.getPart_id()).getWorkedOn());
+        }
         if (partService.checkByPartName(part.getPartName())) {
             redirectAttributes.addFlashAttribute("error", "The part already exists (either delete it first or update it)");
             mv.setViewName("redirect:/addPart");
