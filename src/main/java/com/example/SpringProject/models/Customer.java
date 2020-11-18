@@ -25,6 +25,18 @@ public class Customer {
     private String personal_contact;
     private String office_contact;
 
+    @OneToMany(mappedBy = "customer", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    List<Purchase> purchases;
+
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
     public int getCustomer_id() {
         return customer_id;
     }

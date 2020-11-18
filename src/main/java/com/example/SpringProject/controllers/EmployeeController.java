@@ -38,6 +38,10 @@ public class EmployeeController {
     public ModelAndView addEmployee(@ModelAttribute Employee employee, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         redirectAttributes.addAttribute("employee_id", employee.getEmployee_id());
+        if (employee.getEmployee_id() != 0) {
+            employee.setAssembles(employeeService.getEmployeeById(employee.getEmployee_id()).getAssembles());
+            employee.setWorks(employeeService.getEmployeeById(employee.getEmployee_id()).getWorks());
+        }
         if (!dateService.isValid(employee.getJoining_day(), employee.getJoining_month(), employee.getJoining_year())) {
             redirectAttributes.addFlashAttribute("error", "Please enter a valid joining date");
             if (employee.getEmployee_id() == 0) mv.setViewName("redirect:/addEmployee");

@@ -54,4 +54,9 @@ public class AssemblesService {
         Optional<Assembles> optional = assemblesRepository.findByEmployeeAndProductAndDayAndMonthAndYear(employee, product, day, month, year);
         return optional.isPresent();
     }
+    public Assembles getAssembles(Employee employee, Product product, int day, int month, int year) {
+        Optional<Assembles> optional = assemblesRepository.findByEmployeeAndProductAndDayAndMonthAndYear(employee, product, day, month, year);
+        if (optional.isPresent()) return optional.get();
+        else throw new RuntimeException("no such assembles");
+    }
 }

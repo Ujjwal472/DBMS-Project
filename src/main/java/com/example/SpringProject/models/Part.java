@@ -30,6 +30,7 @@ public class Part {
     private List<Tool> tools_used;
 
     @ManyToMany(mappedBy = "parts_required")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Product> used_in;
 
     @OneToMany(mappedBy = "log_part", orphanRemoval = true)

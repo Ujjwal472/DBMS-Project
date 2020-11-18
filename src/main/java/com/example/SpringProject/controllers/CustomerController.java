@@ -36,6 +36,7 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public ModelAndView addCustomer(@ModelAttribute(name = "customer") Customer customer) {
         ModelAndView mv = new ModelAndView("redirect:/customers");
+        if (customer.getCustomer_id() != 0) customer.setPurchases(customerService.getCustomerById(customer.getCustomer_id()).getPurchases());
         if (customer.getOffice_contact() == null) customer.setOffice_contact("-");
         customerService.saveCustomer(customer);
         return mv;

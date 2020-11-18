@@ -129,6 +129,15 @@ public class MaterialController {
     @GetMapping("/deleteMaterial/{id}")
     public ModelAndView deleteRawMaterial(@PathVariable(name = "id") int material_id) {
         ModelAndView mv = new ModelAndView("redirect:/rawMaterials");
+        RawMaterial material = materialService.getMaterialById(material_id);
+        List<Requirement> all_requirements = material.getRequired();
+        for (Requirement requirement: all_requirements) {
+            double cost = requirement.getPart().getTotal_material_cost();
+            cost -= requirement.getUnits_required() * material.getCost_per_unit();
+            Part part = partService.getPartById(requirement.getPart().getPart_id());
+            part.setTotal_material_cost(cost);
+            partService.savePart(part);
+        }
         materialService.deleteMaterialById(material_id);
         return mv;
     }

@@ -33,10 +33,12 @@ public class ProductController {
     @PostMapping("/addProduct")
     public ModelAndView addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
+        redirectAttributes.addAttribute("product_id", product.getProduct_id());
         product.setProductName(product.getProductName().toLowerCase());
         if (productService.checkByProductName(product.getProductName())) {
             redirectAttributes.addFlashAttribute("error", "product already exists");
-            mv.setViewName("redirect:/addProduct");
+            if (product.getProduct_id() == 0) mv.setViewName("redirect:/addProduct");
+            else mv.setViewName("redirect:/productUpdateForm/{product_id}");
         } else {
             mv.setViewName("redirect:/products");
             productService.saveProduct(product);
