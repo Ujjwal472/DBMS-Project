@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Customers List</h3></div>
+    <a th:href="@{/addCustomer}" class="btn btn-primary brn-sm mb-3">Add a new Customer</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company Name</th>
+            <th>GST-Number</th>
+            <th>Personal Contact</th>
+            <th>Office Contact</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_customers.empty}">
+            <td colspan="8">No Customer Available.</td>
+        </tr>
+        <tr th:each="customer: ${all_customers}">
+            <td><span th:text="${customer.customer_name}">Name</span></td>
+            <td><span th:text="${customer.email}">Email</span></td>
+            <td><span th:text="${customer.company_name}">Company Name</span></td>
+            <td><span th:text="${customer.GST_number}">GST Number</span></td>
+            <td><span th:text="${customer.personal_contact}">Personal Contact</span></td>
+            <td><span th:text="${customer.office_contact}">Office Contact</span></td>
+
+            <td>
+                <a th:href="@{/customerUpdateForm/{id}(id=${customer.customer_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteCustomer/{id}(id=${customer.customer_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/purchases/{id}(id=${customer.customer_id})}" class="btn btn-info">Orders</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

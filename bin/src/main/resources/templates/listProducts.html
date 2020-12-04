@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Products List</h3></div>
+    <a th:href="@{/addProduct}" class="btn btn-primary brn-sm mb-3">Add a new Product</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Total Available</th>
+            <th>Total Defective</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_products.empty}">
+            <td colspan="4">No Product Available.</td>
+        </tr>
+        <tr th:each="product: ${all_products}">
+            <td><span th:text="${product.productName}">Product Name</span></td>
+            <td>
+                <a th:href="@{/decrementProductAvailable/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
+                <span th:text="${product.total_available}">Total Available</span>
+                <a th:href="@{/incrementProductAvailable/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
+            </td>
+            <td>
+                <a th:href="@{/decrementProductDefective/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">-</button></a>
+                <span th:text="${product.total_defective}">Total Defective</span>
+                <a th:href="@{/incrementProductDefective/{id}(id=${product.product_id})}" style="color: azure;"><button type="button" style="color: black">+</button></a>
+            </td>
+
+            <td>
+                <a th:href="@{/productUpdateForm/{id}(id=${product.product_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteProduct/{id}(id=${product.product_id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/partsRequired/{id}(id=${product.product_id})}" class="btn btn-info">Parts Required</a>
+                <a th:href="@{/generateProduct/{id}(id=${product.product_id})}" class="btn btn-info">Get Cost</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

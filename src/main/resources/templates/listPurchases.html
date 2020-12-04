@@ -14,7 +14,6 @@
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 </head>
 <body style="background: beige">
-<div class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -34,6 +33,7 @@
             </ul>
         </div>
     </nav>
+<div class="container">
 
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 th:text="${'Purchases By ' + customer.customer_name}" style="color: blue">Purchases By: </h3></div>
@@ -61,13 +61,16 @@
             <td><span th:text="${purchase.product.productName}">Name</span></td>
             <td><span th:text="${#strings.toString(purchase.purchase_day) + '/' + #strings.toString(purchase.purchase_month) + '/' + #strings.toString(purchase.purchase_year)}">Purchase Date</span></td>
             <td><span th:text="${purchase.selling_price}">Selling Price</span></td>
-            <td>
-                <span th:if="${purchase.transaction_status == 'Y'}" style="color: lawngreen">Completed</span>
-                <span th:if="${purchase.transaction_status == 'N'}" style="color: red">Pending</span>
+            <td th:if="${purchase.transaction_status == 'Y'}" style="background-color: lawngreen;">
+            	<span>Completed</span>
             </td>
-            <td>
-                <span th:if="${purchase.delivery_status == 'Y'}" style="color: lawngreen">Delivered</span>
-                <span th:if="${purchase.delivery_status == 'N'}" style="color: red">Not Delivered</span>
+            <td th:if="${purchase.transaction_status == 'N'}" style="background-color: red;">
+                <span >Pending</span>            
+            </td>
+            <td th:if="${purchase.delivery_status == 'Y'}" style="background-color: lawngreen">
+                <span >Delivered</span> </td>
+            <td th:if="${purchase.delivery_status == 'N'}" style="background-color: red">
+                <span >Not Delivered</span>
             </td>
             <td>
                 <span th:if="${purchase.delivery_status == 'Y'}" th:text="${#strings.toString(purchase.delivery_day) + '/' + #strings.toString(purchase.delivery_month) + '/' + #strings.toString(purchase.delivery_year)}">Not Delivered</span>

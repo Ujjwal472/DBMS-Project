@@ -2,8 +2,7 @@ package com.example.SpringProject.controllers;
 
 import com.example.SpringProject.Services.PartService;
 import com.example.SpringProject.Services.ProductService;
-import com.example.SpringProject.models.Part;
-import com.example.SpringProject.models.Product;
+import com.example.SpringProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductController {
@@ -159,5 +160,54 @@ public class ProductController {
 
         return mv;
     }
+
+    @GetMapping("/generateProduct/{id}")
+    public ModelAndView generateProductForm(@PathVariable(name = "id") int product_id) {
+        ModelAndView mv = new ModelAndView("generateProductForm");
+        ProductRequest pr = new ProductRequest();
+        pr.setProduct_id(product_id);
+        HashMap<String, String> temp = new HashMap<>();
+        Product product = productService.getProductById(product_id);
+        List<Part> parts_required = product.getParts_required();
+        for (Part part: parts_required) temp.put(part.getPartName(), "0");
+        pr.setPartsRequired(temp);
+        CostWrapper cw = new CostWrapper();
+        cw.setCost(-1);
+        Status status = new Status();
+        status.setStatus(-1);
+        mv.addObject("partsWrapper", pr);
+        mv.addObject("product_cost", cw);
+        mv.addObject("status", status);
+        return mv;
+    }
+
+    @GetMapping("/getCost")
+    public ModelAndView getCost(@ModelAttribute(name = "partsWrapper") ProductRequest pr, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("part_id", pr.getProduct_id());
+        ModelAndView mv = new ModelAndView();
+        HashMap<String, String> parts = pr.getPartsRequired();
+        int total_cost = 0;
+        Status status = new Status();
+        status.setStatus(1);
+        for (Map.Entry<String, String> mapElement: parts.entrySet()) {
+            int units_required = Integer.parseInt(mapElement.getValue());
+            if (units_required < 0) {
+                redirectAttributes.addFlashAttribute("error", "Please enter non negative integral number of units");
+                mv.setViewName("redirect:/generateProduct/{product_id}");
+                return mv;
+            }
+            if (units_required > partService.getPartByName(mapElement.getKey()).getTotal_available()) status.setStatus(0);
+            total_cost += partService.getPartByName(mapElement.getKey()).getTotal_material_cost() * units_required;
+        }
+        mv.setViewName("generateProductForm");
+        CostWrapper cw = new CostWrapper();
+        cw.setCost(total_cost);
+        mv.addObject("product_cost", cw);
+        mv.addObject("partsWrapper", pr);
+        mv.addObject("status", status);
+        System.out.println("reached here atleast!");
+        return mv;
+    }
+
 
 }

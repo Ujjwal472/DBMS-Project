@@ -11,11 +11,27 @@
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+	    function convert() {
+	        var date = new Date(document.getElementById("date").value);
+	        console.log(typeof(date));
+	        document.getElementById("year").value = String(date.getFullYear());
+	        document.getElementById("month").value = String(parseInt(date.getMonth()) + 1);
+	        document.getElementById("day").value = String(date.getDate());
+	    }
+	    function set() {
+	        var today = new Date();
+	        var dd = String(today.getDate()).padStart(2, '0');
+	        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	        var yyyy = today.getFullYear();
+	        console.log(dd + '-' + mm + '-' + yyyy);
+	        document.getElementById("date").value = yyyy + '-' + mm + '-' + dd;
+	    }
+    </script>
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 
 </head>
-<body style="background: beige">
-<div class="container">
+<body style="background: beige" onload="set()">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -35,26 +51,41 @@
             </ul>
         </div>
     </nav>
+<div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Add a new Part Log:</h3></div>
     <form th:action="@{/addPartLog}" th:object="${partLog}" method="post">
         <input type="hidden" th:field="*{partLogKey.partId}">
-        <label>Day</label><input type="text" th:field="*{partLogKey.day}" placeholder="day" class="form-control mb-4 col-4"><br>
+        
+        <div class="form-group row">
+        	<label class="col-sm-2 col-form-label">Date</label>
+        	<div class="col-sm-5">
+        		<input type="date" class="form-control" id="date">
+        	</div>
+        </div>
+        
 
-        <label>Month</label><input type="text" th:field="*{partLogKey.month}" placeholder="month" class="form-control mb-4 col-4"><br>
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Total Produced</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{total_produced}" placeholder="Total Part Produced" class="form-control mb-4 col-4"><br>
+        </div>
+        </div>
+	
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Total Defective</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{total_defective}" placeholder="Total Defective Produced" class="form-control mb-4 col-4"><br>
+        </div>
+        </div>
+        
+        <input type="hidden" th:field="*{partLogKey.day}" id="day">
 
-        <label>Year</label><input type="text" th:field="*{partLogKey.year}" placeholder="year" class="form-control mb-4 col-4"><br>
+            <input type="hidden" th:field="*{partLogKey.month}" id="month">
 
+            <input type="hidden" th:field="*{partLogKey.year}" id="year">
 
-        <label>Total Produced</label><input type="text"
-                                                   th:field="*{total_produced}" placeholder="Total Part Produced"
-                                                   class="form-control mb-4 col-4"><br>
-
-        <label>Total Defective</label><input type="text"
-                                                   th:field="*{total_defective}" placeholder="Total Defective Produced"
-                                                   class="form-control mb-4 col-4"><br>
-
-        <button type="submit" class="btn btn-info">Add</button> <button
+        <button type="submit" class="btn btn-info" onclick="convert()">Add</button> <button
             type="reset" class="btn btn-warning">Reset</button>
     </form>
 </div>

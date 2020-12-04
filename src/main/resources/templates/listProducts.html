@@ -14,7 +14,6 @@
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 </head>
 <body style="background: beige">
-<div class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -34,6 +33,7 @@
             </ul>
         </div>
     </nav>
+<div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Products List</h3></div>
     <a th:href="@{/addProduct}" class="btn btn-primary brn-sm mb-3">Add a new Product</a>
@@ -67,6 +67,7 @@
                 <a th:href="@{/productUpdateForm/{id}(id=${product.product_id})}" class="btn btn-primary">Update</a>
                 <a th:href="@{/deleteProduct/{id}(id=${product.product_id})}" class="btn btn-danger">Delete</a>
                 <a th:href="@{/partsRequired/{id}(id=${product.product_id})}" class="btn btn-info">Parts Required</a>
+                <a th:href="@{/generateProduct/{id}(id=${product.product_id})}" class="btn btn-info">Get Cost</a>
             </td>
         </tr>
         </tbody>

@@ -10,21 +10,11 @@
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        function checkCounts() {
-            var av = document.getElementById("available").value;
-            var def = document.getElementById("defective").value;
-            if (def > av) {
-                alert("please ensure that the value of total defective is less than total available!");
-            }
-        }
-    </script>
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 
 </head>
 <body style="background: beige">
-<div class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -44,19 +34,30 @@
             </ul>
         </div>
     </nav>
+<div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Add a new Tool:</h3></div>
     <form th:action="@{/addTool}" th:object="${tool}" method="post">
-        <label>Tool Name</label><input type="text" th:field="*{toolName}" placeholder="Tool Name"
-                                       class="form-control mb-4 col-4"><br>
-
-        <label>Total Tools Available</label><input type="text"
-                                                   th:field="*{total_available}" placeholder="Total Tools Available"
-                                                   class="form-control mb-4 col-4" id="available"><br>
-
-        <label>Total Defective Tools</label><input type="text"
-                                                   th:field="*{total_defective}" placeholder="Total Defective Tools"
-                                                   class="form-control mb-4 col-4" id="defective" onblur="checkCounts();"><br>
+    	<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tool Name</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{toolName}" placeholder="Tool Name" class="form-control mb-4 col-4"><br>
+        </div>
+        </div>
+		
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Total Tools Available</label>
+		<div class="col-sm-5">        
+        <input type="text" th:field="*{total_available}" placeholder="Total Tools Available" class="form-control mb-4 col-4" id="available"><br>
+        </div>
+        </div>
+		
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Total Defective Tools</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{total_defective}" placeholder="Total Defective Tools" class="form-control mb-4 col-4" id="defective" onblur="checkCounts();"><br>
+        </div>
+        </div>
 
         <button type="submit" class="btn btn-info">Add</button> <button
             type="reset" class="btn btn-warning">Reset</button>

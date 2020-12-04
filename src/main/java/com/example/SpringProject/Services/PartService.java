@@ -31,4 +31,9 @@ public class PartService {
         Optional<Part> optional = partRepository.findByPartName(part_name);
         return optional.isPresent();
     }
+    public Part getPartByName(String part_name) {
+        Optional<Part> optional = partRepository.findByPartName(part_name);
+        if (optional.isPresent()) return optional.get();
+        else throw new RuntimeException("No part with name = " + part_name);
+    }
 }

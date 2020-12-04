@@ -10,55 +10,76 @@
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 
 </head>
 <body style="background: beige">
-<div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/employees}">Employees</a></li>
-                <li><a th:href="@{/products}">Products</a></li>
-                <li><a th:href="@{/customers}">Customers</a></li>
-                <li><a th:href="@{/parts}">Parts</a></li>
-                <li><a th:href="@{/rawMaterials}">Materials</a></li>
-                <li><a th:href="@{/tools}">Tools</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/logout}">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+ <nav class="navbar navbar-inverse">
+     <div class="container-fluid">
+         <div class="navbar-header">
+             <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+         </div>
+         <ul class="nav navbar-nav">
+             <li class="active"><a th:href="@{/}">Home</a></li>
+             <li><a th:href="@{/employees}">Employees</a></li>
+             <li><a th:href="@{/products}">Products</a></li>
+             <li><a th:href="@{/customers}">Customers</a></li>
+             <li><a th:href="@{/parts}">Parts</a></li>
+             <li><a th:href="@{/rawMaterials}">Materials</a></li>
+             <li><a th:href="@{/tools}">Tools</a></li>
+         </ul>
+         <ul class="nav navbar-nav navbar-right">
+             <li><a th:href="@{/logout}">Logout</a></li>
+         </ul>
+     </div>
+ </nav>
+ <div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Add a new Customer:</h3></div>
     <form th:action="@{/addCustomer}" th:object="${customer}" method="post">
-        <label>Name</label><input type="text" th:field="*{customer_name}" placeholder="Customer Name" class="form-control mb-4 col-4"><br>
+    
+        <div class="form-group row">
+	        <label class="col-sm-2 col-form-label">Name</label>
+	        <div class="col-sm-5">
+   	    		<input type="text" th:field="*{customer_name}" placeholder="Customer Name" class="form-control"><br>
+   	    	</div>        	
+        </div>
 
-        <label>E-Mail</label><input type="text"
-                                         th:field="*{email}" placeholder="Email-Id"
-                                         class="form-control mb-4 col-4"><br>
+		<div class="form-group row">
+        	<label class="col-sm-2 col-form-label">E-Mail</label>
+        	<div class="col-sm-5">
+        	<input required="required" type="email" th:field="*{email}" placeholder="email@example.com" class="form-control mb-4 col-4"><br>
+        	</div>
+        </div>
 
-        <label>Company Name</label><input type="text"
-                                            th:field="*{company_name}" placeholder="Company Name"
-                                            class="form-control mb-4 col-4"><br>
-
-        <label>GST Number</label><input type="text"
-                                          th:field="*{GST_number}" placeholder="GST Number"
-                                          class="form-control mb-4 col-4"><br>
-
-        <label>Personal Contact</label><input type="text"
-                                           th:field="*{personal_contact}" placeholder="Personal Contact"
-                                           class="form-control mb-4 col-4"><br>
-
-        <label>Office Contact</label><input type="text"
-                                          th:field="*{office_contact}" placeholder="Office Contact"
-                                          class="form-control mb-4 col-4"><br>
+		<div class="form-group row">
+        	<label class="col-sm-2 col-form-label">Company Name</label>
+        	<div class="col-sm-5">
+        		<input type="text" th:field="*{company_name}" placeholder="Company Name" class="form-control mb-4 col-4"><br>
+        	</div>
+		</div>
+		
+		<div class="form-group row">
+        	<label class="col-sm-2 col-form-label">GST Number</label>
+        	<div class="col-sm-5">
+        		<input type="text" th:field="*{GST_number}" placeholder="GST Number" class="form-control mb-4 col-4"><br>
+        	</div>
+        </div>
+		
+		<div class="form-group row">
+        	<label class="col-sm-2 col-form-label">Personal Contact</label>
+        	<div class="col-sm-5">
+        	<input type="text" th:field="*{personal_contact}" placeholder="Personal Contact" class="form-control mb-4 col-4"><br>
+        	</div>
+        </div>
+		
+		<div class="form-group row">
+        	<label class="col-sm-2 col-form-label">Office Contact</label>
+        	<div class="col-sm-5">
+        		<input type="text" th:field="*{office_contact}" placeholder="Office Contact" class="form-control mb-4 col-4"><br>
+        	</div>
+        </div>
 
 
         <button type="submit" class="btn btn-info">Add</button> <button

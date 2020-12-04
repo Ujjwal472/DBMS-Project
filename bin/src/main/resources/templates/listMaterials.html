@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Raw Materials List</h3></div>
+    <a th:href="@{/addRawMaterial}" class="btn btn-primary brn-sm mb-3">Add a new Material</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Available</th>
+            <th>Type</th>
+            <th>Cost Per Unit</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_materials.empty}">
+            <td colspan="5">No Material Available.</td>
+        </tr>
+        <tr th:each="material: ${all_materials}">
+            <td><span th:text="${material.materialName}">Name</span></td>
+            <td>
+                <a th:href="@{/decrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: black;"><button type="button">-</button></a>
+                <span th:text="${material.total_available}">total Available</span>
+                <a th:href="@{/incrementMaterialAvailable/{id}(id=${material.material_id})}" style="color: black;"><button type="button">+</button></a>
+            </td>
+            <td><span th:text="${material.type}">Metal Type</span></td>
+            <td><span th:text="${material.cost_per_unit}">Per Unit Cost</span></td>
+
+            <td>
+                <a th:href="@{/materialUpdateForm/{id}(id=${material.material_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteMaterial/{id}(id=${material.material_id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

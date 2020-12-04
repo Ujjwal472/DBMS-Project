@@ -6,6 +6,7 @@ import com.example.SpringProject.repositories.PartLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,5 +34,12 @@ public class PartLogService {
     public boolean checkByPartLogId(PartLogKey pk) {
         Optional<PartLog> optional = partLogRepository.findById(pk);
         return optional.isPresent();
+    }
+    
+    public List<PartLog> getByPartLogId(PartLogKey pk) {
+    	Optional<PartLog> optional = partLogRepository.findById(pk);
+    	List<PartLog> all_logs = new ArrayList<>();
+    	if (optional.isPresent()) all_logs.add(optional.get());
+    	return all_logs;
     }
 }

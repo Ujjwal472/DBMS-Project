@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Update Product:</h3></div>
+    <form th:action="@{/addProduct}" th:object="${product}"
+          method="post">
+        <input type="hidden" th:field="${product.product_id}"><br>
+        <label>Product Name</label><input type="text" th:field="*{productName}" placeholder="Product Name"
+                                          class="form-control mb-4 col-4"><br>
+
+        <label>Total Available</label><input type="text"
+                                             th:field="*{total_available}" placeholder="Total Available"
+                                             class="form-control mb-4 col-4"><br>
+
+        <label>Total Defective</label><input type="text"
+                                             th:field="*{total_defective}" placeholder="Total Defective"
+                                             class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Update</button>
+    </form>
+</div>
+</body>
+</html>

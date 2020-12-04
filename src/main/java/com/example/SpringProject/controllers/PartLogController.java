@@ -35,6 +35,9 @@ public class PartLogController {
         List<PartLog> all_logs = partLogService.getPartLogsByPartId(part_id);
         mv.addObject("all_logs", all_logs);
         mv.addObject("part", partService.getPartById(part_id));
+        PartLogKey pk = new PartLogKey();
+        pk.setPartId(part_id);
+        mv.addObject("partLogKey", pk);
         return mv;
     }
 
@@ -91,4 +94,14 @@ public class PartLogController {
         return mv;
     }
 
+    @GetMapping("/partLogByDate")
+    public ModelAndView listPartsByDate(@ModelAttribute(name = "partLogKey") PartLogKey pk) {
+    	ModelAndView mv = new ModelAndView("listPartLog");    	
+    	System.out.println("here");
+    	List<PartLog> all_logs = partLogService.getByPartLogId(pk);
+    	mv.addObject("all_logs", all_logs);
+    	mv.addObject("partLogKey", pk);
+    	mv.addObject("part", partService.getPartById(pk.getPartId()));
+    	return mv;
+    }
 }

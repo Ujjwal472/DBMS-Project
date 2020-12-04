@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+   <div class="container">
+
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Generate Product:</h3></div>
+    <form th:action="@{/getCost}" th:object="${partsWrapper}" method="get">
+        <input type="hidden" th:field="*{product_id}">
+        
+        <div th:each="part: ${partsWrapper.partsRequired.entrySet()}" class="form-group row">
+            
+                <label th:text="${part.key}" class="col-sm-2 col-form-label">Part_Name</label>
+                <div class="col-sm-5">
+                <input type="text" class="form-control" th:field="*{partsRequired['__${part.key}__']}"/>
+                </div>
+            
+        </div>
+        
+        <button type="submit" class="btn btn-info">Get Cost!</button>
+    </form>
+    <br>
+    <div>
+        <h4 style="color:blue" th:if="${product_cost.cost != -1}" th:text="${'Total Cost = ' + #strings.toString(product_cost.cost)}">Product Cost</h4>
+        <h5 style="color: greenyellow" th:if="${status.status == 1}" th:text="${'Sufficient Parts Available!'}"></h5>
+        <h5 style="color: red" th:if="${status.status == 0}" th:text="${'Sufficient Parts Not Available'}"></h5>
+    </div>
+</div>
+</body>
+</html>

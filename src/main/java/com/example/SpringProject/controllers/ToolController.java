@@ -105,15 +105,16 @@ public class ToolController {
     public ModelAndView incrementDe(@PathVariable(name = "id") int tool_id, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
         Tool tool = toolService.getToolById(tool_id);
-        tool.setToolName(tool.getToolName().toLowerCase());
-        if (toolService.checkByToolName(tool.getToolName())) {
-            redirectAttributes.addFlashAttribute("error", "Defective tools cannot exceed available tools!");
-            mv.setViewName("redirect:/addTool");
-        } else{
-            tool.setTotal_defective(tool.getTotal_defective() + 1);
-            toolService.saveTool(tool);
-            mv.setViewName("redirect:/tools");
+        tool.setToolName(tool.getToolName().toLowerCase());        
+        int def = tool.getTotal_defective();
+        if (def == tool.getTotal_available()) {
+        	redirectAttributes.addFlashAttribute("error", "The defective count cannot exceed available count");
+        	mv.setViewName("redirect:/tools");
+        	return mv;
         }
+        tool.setTotal_defective(def + 1);
+        toolService.saveTool(tool);
+        mv.setViewName("redirect:/tools");
         return mv;
     }
 

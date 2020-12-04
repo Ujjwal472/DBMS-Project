@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 style="color: blue">Add a new Part's production details:</h3></div>
+    <form th:action="@{/addWorks}" method="post" th:object="${work}">
+        <input type="hidden" th:field="*{employee.employee_id}">
+        <input type="hidden" th:field="*{worksId}">
+
+        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
+        <!--        <div th:object="${product}">-->
+        <label>Part</label>
+        <select th:field="*{part.part_id}">
+            <option th:each="p: ${all_parts}" th:value="${p.part_id}" th:text="${p.partName}"></option>
+        </select>
+        <br>
+        <!--        </div>-->
+
+        <!--        <div th:object="${assembles}">-->
+        <label>Day</label><input type="text"
+                                 th:field="*{day}" placeholder="Day"
+                                 class="form-control mb-4 col-4"><br>
+
+        <label>Month</label><input type="text"
+                                   th:field="*{month}" placeholder="Month"
+                                   class="form-control mb-4 col-4"><br>
+
+        <label>Year</label><input type="text"
+                                  th:field="*{year}" placeholder="Year"
+                                  class="form-control mb-4 col-4"><br>
+
+        <label>amount</label><input type="text"
+                                    th:field="*{amount}" placeholder="Total Count"
+                                    class="form-control mb-4 col-4"><br>
+
+        <button type="submit" class="btn btn-info">Update</button>
+        <!--        </div>-->
+    </form>
+</div>
+</body>
+</html>

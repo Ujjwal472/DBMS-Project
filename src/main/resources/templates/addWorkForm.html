@@ -41,7 +41,7 @@
         <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
         <!--        <div th:object="${product}">-->
         <label>Part</label>
-        <select th:field="*{part.part_id}">
+        <select th:field="*{part.part_id}" class="form-control">
             <option th:each="p: ${all_parts}" th:value="${p.part_id}" th:text="${p.partName}"></option>
         </select>
         <br>

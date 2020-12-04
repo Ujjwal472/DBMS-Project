@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Factory Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+</head>
+<body style="background: beige">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/employees}">Employees</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/customers}">Customers</a></li>
+                <li><a th:href="@{/parts}">Parts</a></li>
+                <li><a th:href="@{/rawMaterials}">Materials</a></li>
+                <li><a th:href="@{/tools}">Tools</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
+    <div class="page-header"><h3 th:text="${'Purchases By ' + customer.customer_name}" style="color: blue">Purchases By: </h3></div>
+    <a th:href="@{/addPurchase/{id}(id = ${customer.customer_id})}" class="btn btn-primary brn-sm mb-3">Add a new Purchase</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Purchase Date</th>
+            <th>Selling Price</th>
+            <th>Transaction status</th>
+            <th>Delivery Status</th>
+            <th>Delivery Date</th>
+            <th>Transportation Cost</th>
+            <th>amount</th>
+            <th>Guarantee Given (yrs.)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${all_purchases.empty}">
+            <td colspan="10">No Purchase Done.</td>
+        </tr>
+        <tr th:each="purchase: ${all_purchases}">
+            <td><span th:text="${purchase.product.productName}">Name</span></td>
+            <td><span th:text="${#strings.toString(purchase.purchase_day) + '/' + #strings.toString(purchase.purchase_month) + '/' + #strings.toString(purchase.purchase_year)}">Purchase Date</span></td>
+            <td><span th:text="${purchase.selling_price}">Selling Price</span></td>
+            <td>
+                <span th:if="${purchase.transaction_status == 'Y'}" style="color: lawngreen">Completed</span>
+                <span th:if="${purchase.transaction_status == 'N'}" style="color: red">Pending</span>
+            </td>
+            <td>
+                <span th:if="${purchase.delivery_status == 'Y'}" style="color: lawngreen">Delivered</span>
+                <span th:if="${purchase.delivery_status == 'N'}" style="color: red">Not Delivered</span>
+            </td>
+            <td>
+                <span th:if="${purchase.delivery_status == 'Y'}" th:text="${#strings.toString(purchase.delivery_day) + '/' + #strings.toString(purchase.delivery_month) + '/' + #strings.toString(purchase.delivery_year)}">Not Delivered</span>
+                <span th:if="${purchase.delivery_status == 'N'}">Not Delivered</span>
+            </td>
+            <td>
+                <span th:if="${purchase.delivery_status == 'Y'}" th:text="${purchase.transportation_cost}">Not Delivered</span>
+                <span th:if="${purchase.delivery_status == 'N'}">Not Delivered</span>
+            </td>
+            <td><span th:text="${purchase.amount}">Amount Purchased</span></td>
+            <td><span th:text="${purchase.guarantee_given}">Guarantee Given</span></td>
+
+            <td>
+                <a th:href="@{/purchaseUpdateForm/{id}(id=${purchase.purchase_id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deletePurchase/{id}(id=${purchase.purchase_id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

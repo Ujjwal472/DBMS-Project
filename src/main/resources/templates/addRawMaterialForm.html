@@ -16,7 +16,6 @@
 
 </head>
 <body style="background: beige">
-<div class="container">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -36,18 +35,37 @@
             </ul>
         </div>
     </nav>
+<div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">something</div>
     <div class="page-header"><h3 style="color: blue">Add a new Raw Material:</h3></div>
     <form th:action="@{/addRawMaterial}" th:object="${material}" method="post" >
-        <label>Material Name</label><input type="text" th:field="*{materialName}" placeholder="Material Name"
-                                           class="form-control mb-4 col-4" id="material_name"><br>
+    	<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Material Name</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{materialName}" placeholder="Material Name" class="form-control mb-4 col-4" id="material_name"><br>
+        </div>
+        </div>
 
-        <label>Type</label><input type="text" th:field="*{type}" placeholder="Type" class="form-control mb-4 col-4" id="material_type"><br>
-        <label>Total Units Available</label><input type="text"
-                                                   th:field="*{total_available}" placeholder="Total Part Available"
-                                                   class="form-control mb-4 col-4"><br>
-
-        <label>Per Unit Cost</label><input type="text" th:field="*{cost_per_unit}" placeholder="Per Unit Cost" class="form-control mb-4 col-4" id="cost"><br>
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Type</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{type}" placeholder="Type" class="form-control mb-4 col-4" id="material_type"><br>
+        </div>
+        </div>
+        
+        <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Total Units Available</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{total_available}" placeholder="Total Part Available" class="form-control mb-4 col-4"><br>
+        </div>
+        </div>     
+		
+		<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Per Unit Cost</label>
+        <div class="col-sm-5">
+        <input type="text" th:field="*{cost_per_unit}" placeholder="Per Unit Cost" class="form-control mb-4 col-4" id="cost"><br>
+        </div>
+        </div>
 
         <button type="submit" class="btn btn-info">Add</button> <button
             type="reset" class="btn btn-warning">Reset</button>

@@ -8,63 +8,89 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    function convert() {
+        var date = new Date(document.getElementById("date").value);
+        console.log(typeof(date));
+        document.getElementById("year").value = String(date.getFullYear());
+        document.getElementById("month").value = String(parseInt(date.getMonth()) + 1);
+        document.getElementById("day").value = String(date.getDate());
+    }
+    function set() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        console.log(dd + '-' + mm + '-' + yyyy);
+        document.getElementById("date").value = yyyy + '-' + mm + '-' + dd;
+    }
+    function validate() {
+    	var count = document.getElementById("count").value;
+    	if (isNaN(count) || count < 0) {
+    		alert("Please enter a non negative number for count!");
+    		return false;
+    	}    	
+    	return true;
+    }
+    </script>
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 
 </head>
-<body style="background: beige">
-<div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/employees}">Employees</a></li>
-                <li><a th:href="@{/products}">Products</a></li>
-                <li><a th:href="@{/customers}">Customers</a></li>
-                <li><a th:href="@{/parts}">Parts</a></li>
-                <li><a th:href="@{/rawMaterials}">Materials</a></li>
-                <li><a th:href="@{/tools}">Tools</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/logout}">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+<body style="background: beige" onload="set()">
+   <nav class="navbar navbar-inverse">
+       <div class="container-fluid">
+           <div class="navbar-header">
+               <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+           </div>
+           <ul class="nav navbar-nav">
+               <li class="active"><a th:href="@{/}">Home</a></li>
+               <li><a th:href="@{/employees}">Employees</a></li>
+               <li><a th:href="@{/products}">Products</a></li>
+               <li><a th:href="@{/customers}">Customers</a></li>
+               <li><a th:href="@{/parts}">Parts</a></li>
+               <li><a th:href="@{/rawMaterials}">Materials</a></li>
+               <li><a th:href="@{/tools}">Tools</a></li>
+           </ul>
+           <ul class="nav navbar-nav navbar-right">
+               <li><a th:href="@{/logout}">Logout</a></li>
+           </ul>
+       </div>
+   </nav>
+   <div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 style="color: blue">Add a new Product's Assembly details:</h3></div>
-    <form th:action="@{/addAssembles}" method="post" th:object="${assembles}" >
+    <form th:action="@{/addAssembles}" method="post" th:object="${assembles}" onsubmit="return validate()">
             <input type="hidden" th:field="*{employee.employee_id}">
 
-        <!--        <input type="hidden" th:field="${assembles.employee.employee_id}">-->
-<!--        <div th:object="${product}">-->
-            <label>Product</label>
-            <select th:field="*{product.product_id}">
-                <option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.productName}"></option>
-            </select>
-            <br>
-<!--        </div>-->
+        	<div class="form-group row">
+            	<label class="col-sm-2 col-form-label">Product</label>
+            	<div class="col-sm-5">
+	            	<select th:field="*{product.product_id}" class="form-control">
+	                	<option th:each="p: ${all_products}" th:value="${p.product_id}" th:text="${p.productName}"></option>
+	            	</select>
+            	</div>
+            </div>            
 
-<!--        <div th:object="${assembles}">-->
-            <label>Assembly-Day</label><input type="text"
-                                              th:field="*{day}" placeholder="Assembly-Day"
-                                              class="form-control mb-4 col-4" id="day"><br>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Date</label>
+				<div class="col-sm-5">
+					<input type="date" class="form-control" placeholder="date" id="date" >
+				</div>	
+			</div>
+			<div class="form-group row">
+            	<label class="col-sm-2 col-form-label">Count</label> 
+            	<div class="col-sm-5">           
+            		<input type="text" th:field="*{count}" placeholder="Total Count" class="form-control mb-4 col-4" id="count"><br>
+            	</div>
+            </div>
 
-            <label>Assembly-Month</label><input type="text"
-                                                th:field="*{month}" placeholder="Assembly-Month"
-                                                class="form-control mb-4 col-4" id="month"><br>
+            <input type="hidden" th:field="*{day}" id="day">
 
-            <label>Assembly-Year</label><input type="text"
-                                               th:field="*{year}" placeholder="Assembly-Year"
-                                               class="form-control mb-4 col-4" id="year"><br>
+            <input type="hidden" th:field="*{month}" id="month">
 
-            <label>Count</label><input type="text"
-                                       th:field="*{count}" placeholder="Total Count"
-                                       class="form-control mb-4 col-4"><br>
+            <input type="hidden" th:field="*{year}" id="year">
 
-            <button type="submit" class="btn btn-info">Add</button> <button type="reset" class="btn btn-warning">Reset</button>
-<!--        </div>-->
+            <button type="submit" class="btn btn-info" onclick="convert()">Add</button> <button type="reset" class="btn btn-warning">Reset</button>
     </form>
 </div>
 </body>

@@ -14,37 +14,39 @@
     <link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
 </head>
 <body style="background: beige">
-<div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/employees}">Employees</a></li>
-                <li><a th:href="@{/products}">Products</a></li>
-                <li><a th:href="@{/customers}">Customers</a></li>
-                <li><a th:href="@{/parts}">Parts</a></li>
-                <li><a th:href="@{/rawMaterials}">Materials</a></li>
-                <li><a th:href="@{/tools}">Tools</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/logout}">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+   <nav class="navbar navbar-inverse">
+       <div class="container-fluid">
+           <div class="navbar-header">
+               <a class="navbar-brand" href="#" style="font-family: 'Amita';font-size: 22px;">Factory Management</a>
+           </div>
+           <ul class="nav navbar-nav">
+               <li class="active"><a th:href="@{/}">Home</a></li>
+               <li><a th:href="@{/employees}">Employees</a></li>
+               <li><a th:href="@{/products}">Products</a></li>
+               <li><a th:href="@{/customers}">Customers</a></li>
+               <li><a th:href="@{/parts}">Parts</a></li>
+               <li><a th:href="@{/rawMaterials}">Materials</a></li>
+               <li><a th:href="@{/tools}">Tools</a></li>
+           </ul>
+           <ul class="nav navbar-nav navbar-right">
+               <li><a th:href="@{/logout}">Logout</a></li>
+           </ul>
+       </div>
+   </nav>
+   <div class="container">
     <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}">error occurred!</div>
     <div class="page-header"><h3 th:text="${product.productName + ' uses parts'}" style="color: blue">Uses Parts</h3></div>
     <br>
-    <form th:action="@{/addPartsRequired/{id}(id=${product.product_id})}" th:object="${part}" method="post">
-        <div>
-            <select th:field="*{part_id}">
+    <form th:action="@{/addPartsRequired/{id}(id=${product.product_id})}" th:object="${part}" method="post">    
+        <div class="form-group row">
+        	<label class="col-sm-2 col-form-label">New Part</label>
+        	<div class="col-sm-5">
+            <select th:field="*{part_id}" class="form-control">
                 <option th:each="p:${all_parts}" th:value="${p.part_id}" th:text="${p.partName}">option</option>
             </select>
-            <br><br>
-            <button type="submit" class="btn btn-primary">Add Part</button>
+            </div>            
         </div>
+        <button type="submit" class="btn btn-primary">Add Part</button>
     </form>
     <br><br>
     <div th:if="${parts_req.empty}">No Parts added.</div>
